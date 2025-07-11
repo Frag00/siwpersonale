@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SiwPizzeria</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+      <h1><strong>SiwPizzeria</strong></h1>
+	  <header>
+		
+		<p th:unless="${user}">
+			<span><a href="/login">Accedi</a></span>
+			<span><a href="/register">Registrati</a></span></p>	
+	  </header>
+	  <h1>Benvenuto su SiwPizzeria</h1>
+	  <h2>Pagina iniziale</h2>
+	  <p><a th:href="@{/pizzerie}">Dai un'occhiata a tutte le pizzerie disponibili !</a></p>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SiwPizzeria</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+	<div th:if="${user}">
+				<p th:text="${user.nome + ' ' + user.cognome}"></p>
+		  		<p><a href="/logout">Logout</a></p>
+			</div>
+			<p th:unless="${user}">
+				<span><a href="/login">Accedi</a></span>
+				<span><a href="/register">Registrati</a></span></p>	
+      <h1><strong>SiwPizzeria</strong></h1>
+	  <h2>REGISTRAZIONE</h2>
+	  <form th:action="@{/register}" method="post" autocomplete="off">
+		<div>
+				<span>Nome : </span>
+				<span><input type="text" th:field="${utente.nome}"  autocomplete="off" /></span>
+				<span th:if="${#fields.hasErrors('utente.nome')}" th:errors="${utente.nome}"></span>
+		</div>
+		<div>
+				<span>Cognome : </span>
+				<span><input type="text"  th:field="${utente.cognome}"  autocomplete="off" /></span>
+				<span th:if="${#fields.hasErrors('utente.cognome')}" th:errors="${utente.cognome}"></span>
+		</div>
+		<div>
+				<span>Email : </span>
+				<span><input type="text"  th:field="${utente.email}"  autocomplete="off" /></span>
+				<span th:if="${#fields.hasErrors('utente.email')}" th:errors="${utente.email}"></span>
+		</div>
+		<div>
+			<span>Username : </span>
+			<span><input type="text"  th:field="${credentials.username}"  autocomplete="off" /></span>
+			<span th:if="${#fields.hasErrors('credentials.username')}" th:errors="${credentials.username}"></span>
+		</div>
+		<div>
+			<span>Password : </span>
+			<span><input type="password"  th:field="${credentials.password}"  autocomplete="off" minlength="8"/></span>
+			<span th:if="${#fields.hasErrors('credentials.password')}" th:errors="${credentials.password}"></span>
+		</div>
+		<span><button type="submit">Registrati</button></span>
+	  </form>
+	  <div th:if="${esiste}"><span th:text="${esiste}"></span></div>
+	  <p><a th:href="@{/}">Torna alla Homepage</a></p>
+  </body>
+</html>

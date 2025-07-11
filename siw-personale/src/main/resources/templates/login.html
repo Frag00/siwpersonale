@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SiwPizzeria</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+	<div th:if="${user}">
+				<p th:text="${user.nome + ' ' + user.cognome}"></p>
+		  		<p><a href="/logout">Logout</a></p>
+			</div>
+			<p th:unless="${user}">
+				<span><a href="/login">Accedi</a></span>
+				<span><a href="/register">Registrati</a></span></p>	
+      <h1><strong>SiwPizzeria</strong></h1>
+	  <div th:if="${param.registered}" style="color: green; margin-bottom: 10px;">
+	      Registrazione completata con successo! Ora puoi effettuare il login.
+	  </div>
+	  <h2>Hai già un account? Accedi</h2>
+	  <form th:action="@{/login}" method="post">
+		<div>
+			<span>Username : </span>
+			<span><input type="text" required name="username" autocomplete="off"></span>
+		</div>
+		<div>
+			<span>Password : </span>
+			<span><input type="password" required name="pwd" autocomplete="off"></span>
+		</div>
+		<span><button type="submit">Login</button></span>
+	  </form>
+	  <p><a th:href="@{/}">Torna alla Homepage</a></p>
+  </body>
+</html> 
