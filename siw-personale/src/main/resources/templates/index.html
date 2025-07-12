@@ -6,14 +6,20 @@
   </head>
   <body>
       <h1><strong>SiwPizzeria</strong></h1>
-	  <header>
-		
-		<p th:unless="${user}">
-			<span><a href="/login">Accedi</a></span>
-			<span><a href="/register">Registrati</a></span></p>	
-	  </header>
-	  <h1>Benvenuto su SiwPizzeria</h1>
-	  <h2>Pagina iniziale</h2>
-	  <p><a th:href="@{/pizzerie}">Dai un'occhiata a tutte le pizzerie disponibili !</a></p>
+	  
+	  		<div th:if="${user}">
+	  			<p>Si è verificato un errore, <span th:text="${user.nome + ' ' + user.cognome}"></span>, effettua il Logout!</p>
+	  	  		<p><a href="/logout">Logout</a></p>
+	  		</div>
+			<div th:unless="${user}">
+	  			<p>
+	  			<span><a href="/login">Accedi</a></span>
+	  			<span><a href="/register">Registrati</a></span>
+				</p>	
+	  	  
+				  <h1>Benvenuto su SiwPizzeria</h1>
+				  <h2>Pagina iniziale</h2>
+				  <p><a th:href="@{/pizzerie}">Dai un'occhiata a tutte le pizzerie disponibili !</a></p>
+  			</div>
   </body>
 </html>

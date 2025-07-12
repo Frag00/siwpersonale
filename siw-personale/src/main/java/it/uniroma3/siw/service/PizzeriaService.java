@@ -1,5 +1,7 @@
 package it.uniroma3.siw.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,5 +14,17 @@ public class PizzeriaService {
 	
 	public Iterable<Pizzeria> getAllPizzerie(){
 		return pizzeriaRepository.findAll();
+	}
+
+	public Optional<Pizzeria> getPizzeriaById(Long id) {
+		return pizzeriaRepository.findById(id);
+	}
+	
+	public boolean existsByNomeAndIndirizzo(Pizzeria p) {
+		return pizzeriaRepository.existsByNomeAndIndirizzo(p.getNome(),p.getIndirizzo());
+	}
+	
+	public void savePizzeria(Pizzeria p) {
+		pizzeriaRepository.save(p);
 	}
 }

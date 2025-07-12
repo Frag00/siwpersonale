@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+		 <title>Pizzerie</title>
+	 </head>
+	 <body>
+		<div th:if="${user}">
+					<p th:text="${user.nome + ' ' + user.cognome}"></p>
+			  		<p><a href="/logout">Logout</a></p>
+				</div>
+				<p th:unless="${user}">
+					<span><a href="/login">Accedi</a></span>
+					<span><a href="/register">Registrati</a></span></p>	
+		 <h1>Tutte le Pizzerie Disponibili</h1>
+		 <div th:if="${pizzerie.isEmpty()}">Non ci sono pizzerie nel sistema</div>
+		 <ul>
+		 	<li th:each="p : ${pizzerie}">
+		 		<a th:href="@{'/admin/pizzerie' + '/' + ${p.id}}"
+		 		th:text="${p.nome}">titolo</a>
+		 	</li>
+		 </ul>
+		 <p><a th:href="@{/admin/formNewPizzeria}">Aggiungi una pizzeria</a></p>
+		 <p><a href="/admin">Torna alla home</a></p>
+	 </body>
+</html>

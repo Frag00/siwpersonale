@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Menu della Pizzeria</title>
+	</head>
+	<body> 
+		<div th:if="${user}">
+					<p th:text="${user.nome + ' ' + user.cognome}"></p>
+			  		<p><a href="/logout">Logout</a></p>
+				</div>
+				<p th:unless="${user}">
+					<span><a href="/login">Accedi</a></span>
+					<span><a href="/register">Registrati</a></span></p>	
+		<h1><span>Menu della pizzeria</span><span th:text="' ' + ${pizzeria.nome}"></span></h1>			
+		<div th:if="${!pizzeria.menu.isEmpty()}">
+			<div><p th:if="${!pizze.isEmpty()}">Pizze : </p>
+			<ul>
+				<li th:each="p : ${pizze}">
+					<span th:utext="${p.nome + '  ' + p.prezzo + '<br/>' + p.descrizione}">Pizza</span>
+					<div th:if="${p.immagine}">
+						<div>
+							<img th:src="${p.immagine.nome}" 
+								 alt="Immagine pizza" 
+						         style="max-width: 200px; max-height: 200px; margin: 5px;" />
+			    		</div>
+					</div> 
+
+				</li>				
+			</ul>
+			</div>	
+			
+			<div><p th:if="${!fritti.isEmpty()}">Fritti : </p>
+			<ul>
+				<li th:each="f : ${fritti}">
+					<span th:utext="${f.nome + '  ' + f.prezzo + '<br/>' + f.descrizione}">Fritto</span>
+					<div th:if="${f.immagine}">
+						<div>
+							<img th:src="${f.immagine.nome}" 
+								 alt="Immagine fritto" 
+						         style="max-width: 200px; max-height: 200px; margin: 5px;" />
+			    		</div>
+					</div> 
+
+				</li>				
+			</ul>
+			</div>	
+						
+			<div><p th:if="${!bevande.isEmpty()}">Bevande : </p>
+			<ul>
+				<li th:each="b : ${bevande}">
+					<span th:utext="${b.nome + '  ' + b.prezzo + '<br/>' + b.descrizione}">Bevanda</span>
+					<div th:if="${b.immagine}">
+						<div>
+							<img th:src="${b.immagine.nome}" 
+								 alt="Immagine pizza" 
+						         style="max-width: 200px; max-height: 200px; margin: 5px;" />
+			    		</div>
+					</div> 
+
+				</li>				
+			</ul>
+			</div>	
+				
+		</div>	
+		<div th:unless="${!pizzeria.menu.isEmpty()}">Il menu è vuoto</div>
+		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/formNewProduct'}">Aggiungi un prodotto al menu</a></p>
+		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id}}">Torna alla pizzeria</a></p>
+		<p><a href="/admin/pizzerie">Torna alla lista di tutte le pizzerie</a></p>
+		<p><a href="/admin">Torna alla home</a></p>
+	</body>
+</html>

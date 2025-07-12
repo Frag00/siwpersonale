@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+ <head>
+	 <title>Nuova Pizzeria</title>
+ </head>
+ <body>	
+	<div th:if="${user}">
+				<p th:text="${user.nome + ' ' + user.cognome}"></p>
+		  		<p><a href="/logout">Logout</a></p>
+				<p><a th:href="@{/admin/profile}">Profilo</a></p>
+			</div>
+	 <h1>Aggiungi una Pizzeria</h1>
+	 <form th:action="@{/admin/addPizzeria}" method="POST" th:object="${pizzeria}" enctype="multipart/form-data">
+		<div th:if="${errEsiste}">
+		 	<p th:text="${errEsiste}"></p>
+		</div>
+		<div>
+		 Nome : <span><input type="text" th:field="${pizzeria.nome}"/></span>
+		 <span th:if="${#fields.hasErrors('nome')}" th:errors="${pizzeria.nome}"></span>
+		 </div>
+		 <div>
+		 Città: <span><input type="text" th:field="${pizzeria.citta}"/></span>
+		 <span th:if="${#fields.hasErrors('citta')}" th:errors="${pizzeria.citta}"></span>
+		 </div>
+		 Indirizzo: <span><input type="text" th:field="${pizzeria.indirizzo}"/></span>
+		 <span th:if="${#fields.hasErrors('indirizzo')}" th:errors="${pizzeria.indirizzo}"></span>
+		 </div>		 
+		 <div>
+		 	            <label for="imageFiles">Immagini</label>
+		 	            <input type="file" 
+		 	                   name="imageFiles" 
+		 	                   id="imageFiles" 
+		 	                   multiple 
+		 	                   accept="image/*" 
+		 	                   required/>
+		 </div>
+		 <div>
+		 <span><button type="submit">Aggiungi</button></span>
+		 </div>
+		 
+	 </form>
+	 <a href="/admin/pizzerie">Torna alla lista di tutte le Pizzerie</a>
+	 <p><a href="/admin">Torna alla home</a></p>
+ </body>
+</html>

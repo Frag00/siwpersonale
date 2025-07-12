@@ -79,12 +79,12 @@ public class User {
 		this.recensioni = recensioni;
 	}
 
-	public Set<Ordine> getPrenotazioni() {
+	public Set<Ordine> getOrdini() {
 		return ordini;
 	}
 
-	public void setPrenotazioni(Set<Ordine> prenotazioni) {
-		this.ordini = prenotazioni;
+	public void setOrdini(Set<Ordine> ordini) {
+		this.ordini = ordini;
 	}
 
 	@Override

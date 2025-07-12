@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+ <head> 
+	 <title>New Product</title>
+ </head>
+ <body>	
+ <div th:if="${user}">
+			<p th:text="${user.nome + ' ' + user.cognome}"></p>
+	  		<p><a href="/logout">Logout</a></p>
+	  		<p><a th:href="@{/admin/profile}">Profilo</a></p>
+		</div>
+	 <h1>Aggiungi un Prodotto al menu della Pizzeria</h1>
+	 <form th:action="@{/admin/pizzerie/{id}/addProduct(id=${pizzeria.id})}" method="POST" th:object="${prodotto}" enctype="multipart/form-data">
+		<div th:if="${errEsiste}">
+		 	<p th:text="${errEsiste}"></p>
+		</div>
+		<div>
+		 Nome: <span><input type="text" th:field="${prodotto.nome}"/></span>
+		 <span th:if="${#fields.hasErrors('nome')}" th:errors="${prodotto.nome}"></span>
+		 </div>
+		 <div>
+		 Tipo (Pizza,Fritto,Bevanda) : <span><input type="text" th:field="${prodotto.tipo}"/></span>
+		 <span th:if="${#fields.hasErrors('tipo')}" th:errors="${prodotto.tipo}"></span>
+		 </div>
+		 <div>
+		 Descrizione : <span><input type="text" th:field="${prodotto.descrizione}"/></span>
+		 <span th:if="${#fields.hasErrors('descrizione')}" th:errors="${prodotto.descrizione}"></span>
+		 </div>		 
+		 <div>
+		 Prezzo : <span><input type="number" step="0.01" min="0" th:field="${prodotto.prezzo}"/></span>
+		 <span th:if="${#fields.hasErrors('prezzo')}" th:errors="${prodotto.prezzo}"></span>
+		 </div>
+		 <div>
+		 	            <label for="imageFile">Immagine</label>
+		 	            <input type="file" 
+		 	                   name="imageFile" 
+		 	                   id="imageFile"  
+		 	                   accept="image/*" 
+		 	                   required/>
+		 </div>
+		 <div>
+		 <span><button type="submit">Aggiungi</button></span>
+		 </div>
+		 
+	 </form>
+	 <div th:if="${errIMG}" th:text="${errIMG}"></div>
+	 <a th:href="@{'/admin/pizzerie/' + ${pizzeria.id}}">Torna alla Pizzeria</a>
+	 <a href="/admin/pizzerie">Torna alla lista di tutte le Pizzerie</a>
+	  <p><a href="/admin">Torna alla home</a></p>
+ </body>
+</html>

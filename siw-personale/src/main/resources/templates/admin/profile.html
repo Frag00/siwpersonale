@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Profilo Admin</title>
+	</head>
+	<body> 
+		<div th:if="${user}">
+					<p th:text="${user.nome + ' ' + user.cognome}"></p>
+			  		<p><a href="/logout">Logout</a></p>
+					<p><a th:href="@{/admin/profile}">Profilo</a></p>
+				</div>
+		<div th:if="${user}">
+			<h1>Profilo Admin</h1>
+			<h1 th:text="${user.nome + ' ' + user.cognome}">Nome e cognome</h1>
+			<div>Email : <span th:text="${user.email} ">2000</span></div>
+			
+			
+			<p><a th:href="@{/admin/profile/formChangeProfile}">Modifica informazioni Profilo</a></p>
+			<p><a th:href="@{/admin/profile/formChangePassword}">Cambia Password</a></p>
+			
+		</div>
+		<p><a href="/admin">Vai alla Homepage</a></p>
+	</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SiwPizzeria</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+      <h1><strong>SiwPizzeria</strong></h1>
+	  <header>
+		<div th:if="${user}">
+			<p th:text="${user.nome + ' ' + user.cognome}"></p>
+	  		<p><a href="/logout">Logout</a></p>
+			<p><a th:href="@{/admin/profile}">Profilo</a></p>
+		</div>
+		<p th:unless="${user}">
+			<span><a href="/login">Accedi</a></span>
+			<span><a href="/register">Registrati</a></span></p>	
+	  </header>
+	  <h1>Bentornato Admin : <span th:text="${user.nome + ' ' + user.cognome}">admin</span></h1>
+	  <h2>Pagina iniziale</h2>
+	  <p><a href="/admin/pizzerie">Gestisci tutte le pizzerie</a></p>
+  </body>
+</html>

@@ -107,13 +107,6 @@ public class Pizzeria {
 		this.recensioni = recensioni;
 	}
 
-	public Set<Ordine> getPrenotazioni() {
-		return ordini;
-	}
-
-	public void setPrenotazioni(Set<Ordine> prenotazioni) {
-		this.ordini = prenotazioni;
-	}
 
 	@Override
 	public int hashCode() {

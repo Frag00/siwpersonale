@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modifica Profilo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+	<div th:if="${user}">
+				<p th:text="${user.nome + ' ' + user.cognome}"></p>
+		  		<p><a href="/logout">Logout</a></p>
+				<p><a th:href="@{/user/profile}">Profilo</a></p>
+			</div>
+      <h1><strong>Modifica Informazioni del Profilo</strong></h1>
+
+	<form th:action="@{/user/profile/changeProfile}" method="post" autocomplete="off">
+			<div>
+					<span>Nome : </span>
+					<span><input type="text" th:field="${user.nome}"  autocomplete="off" /></span>
+					<span th:if="${#fields.hasErrors('user.nome')}" th:errors="${user.nome}"></span>
+			</div>
+			<div>
+					<span>Cognome : </span>
+					<span><input type="text"  th:field="${user.cognome}"  autocomplete="off" /></span>
+					<span th:if="${#fields.hasErrors('user.cognome')}" th:errors="${user.cognome}"></span>
+			</div>
+			<div>
+					<span>Email : </span>
+					<span><input type="text"  th:field="${user.email}"  autocomplete="off" /></span>
+					<span th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}"></span>
+			</div>
+			<span><button type="submit">Conferma modifiche</button></span>
+			<p><a th:href="@{/user/profile}">Annulla</a></p>
+	</form>
+  </body>
+</html>

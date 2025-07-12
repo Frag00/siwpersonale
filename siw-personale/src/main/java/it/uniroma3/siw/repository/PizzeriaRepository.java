@@ -6,4 +6,6 @@ import it.uniroma3.siw.model.Pizzeria;
 
 public interface PizzeriaRepository extends CrudRepository<Pizzeria,Long>{
 
+	public boolean existsByNomeAndIndirizzo(String nome, String indirizzo);
+
 }

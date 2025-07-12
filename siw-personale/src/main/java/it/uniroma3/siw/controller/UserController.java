@@ -32,6 +32,7 @@ public class UserController {
 	@GetMapping("/user/profile")
 	public String profiloUtente(Model model) {
 			model.addAttribute("recensioni",userService.getCurrentUser().getRecensioni());
+			model.addAttribute("ordini", userService.getCurrentUser().getOrdini());
 			return "user/profile.html";
 	}
 	

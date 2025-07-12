@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pizzeria</title>
+	</head>
+	<body> 
+		<div th:if="${user}">
+					<p th:text="${user.nome + ' ' + user.cognome}"></p>
+			  		<p><a href="/logout">Logout</a></p>
+				</div>
+				<p th:unless="${user}">
+					<span><a href="/login">Accedi</a></span>
+					<span><a href="/register">Registrati</a></span></p>	
+		<div th:if="${pizzeria}">
+			<h1 th:text="${pizzeria.nome}">Nome Pizzeria</h1>
+			<div>Città: <span th:text="${pizzeria.citta}">Roma</span></div>
+			<div>Indirizzo: <span th:text="${pizzeria.indirizzo}">Via Vito Volterra</span></div>
+			<div th:if="${!pizzeria.recensioni.isEmpty()}">
+							<h3>Recensioni:</h3>
+								<ul>
+									<li th:each="r : ${pizzeria.recensioni}">
+										<span th:utext="${r.titolo + '<br/>' + r.voto + '<br/>' + r.testo + '<br/>' + r.utente.nome + ' ' + r.utente.cognome}">Recensione</span>
+									</li>
+								</ul>
+						</div>
+			<div th:if="${!pizzeria.immagini.isEmpty()}">
+			  <h3>Immagini:</h3>
+			  <div>
+			    <img th:each="img : ${pizzeria.immagini}" 
+			         th:src="${img.nome}" 
+			         alt="Immagine pizzeria" 
+			         style="max-width: 200px; max-height: 200px; margin: 5px;" />
+			  </div>
+			</div> 
+		</div>
+		<div th:unless="${pizzeria}">Non esiste</div>
+		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu'}">Visualizza il menu</a></p>
+		<p><a href="/admin/pizzerie">Torna alla lista di tutte le pizzerie</a></p>
+		<p><a href="/admin">Torna alla home</a></p>
+	</body>
+</html>

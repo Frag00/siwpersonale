@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Profilo utente</title>
+	</head>
+	<body> 
+		<div th:if="${user}">
+					<p th:text="${user.nome + ' ' + user.cognome}"></p>
+			  		<p><a href="/logout">Logout</a></p>
+					<p><a th:href="@{/user/profile}">Profilo</a></p>
+				</div>
+		<div th:if="${user}">
+			<h1 th:text="${user.nome + ' ' + user.cognome}">Nome e cognome</h1>
+			<div>Email : <span th:text="${user.email} ">2000</span></div>
+			<div th:if="${!user.recensioni.isEmpty()}">
+				<h3>Le tue recensioni :</h3>
+					<ul>
+						<li th:each="r : ${recensioni}">
+							<span th:utext="${r.titolo + '<br/>' + r.voto + '<br/>' + r.testo + '<br/>'}">Recensione</span>
+							<p th:if="${r.libro}">
+								<span>Relativa al libro :</span>
+								<a th:href="@{'/user/book' + '/' + ${r.libro.id}}" th:text="${' ' + r.libro.titolo}">Libro</a>
+							</p>
+						</li>
+					</ul>
+			</div> 
+			<div th:if="${!ordini.isEmpty()}">
+			    <h3>I tuoi ordini:</h3>
+			    <ul>
+			        <li th:each="ordine : ${ordini}">
+			            <p>
+			                <strong>Ordine per la Pizzeria:</strong> <span th:text="${' ' + ordine.pizzeria.nome}"></span><br/>
+			            </p>
+			            <div th:if="${!ordine.rigaOrdine.isEmpty()}">
+			                <ul>
+			                    <li th:each="r : ${ordine.rigaOrdine}">
+			                        <span th:text="'Prodotto: ' + ${r.prodotto.nome} + ' | Quantità: ' + ${r.quantita}"></span>
+			                    </li>
+			                </ul>
+			            </div>
+			        </li>
+			    </ul>
+			</div>
+
+			<div th:if="${ordini.isEmpty()}">
+			    <p>Non hai ancora effettuato ordini.</p>
+			</div>
+			
+			<p><a th:href="@{/user/profile/formChangeProfile}">Modifica informazioni Profilo</a></p>
+			<p><a th:href="@{/user/profile/formChangePassword}">Cambia Password</a></p>
+			
+		</div>
+		<p><a href="/user">Vai alla Homepage</a></p>
+	</body>
+</html>

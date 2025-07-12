@@ -1,5 +1,6 @@
 package it.uniroma3.siw.model;
 
+
 import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
@@ -26,9 +27,12 @@ public class Product {
 	@NotBlank
 	private String descrizione;
 	
+	@NotBlank
+	private String tipo;
+	
 	@NotNull
 	@Min(0)
-	private float prezzo;
+	private Float prezzo;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Picture immagine;
@@ -54,6 +58,14 @@ public class Product {
 		this.id = id;
 	}
 
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -70,11 +82,11 @@ public class Product {
 		this.descrizione = descrizione;
 	}
 
-	public float getPrezzo() {
+	public Float getPrezzo() {
 		return prezzo;
 	}
 
-	public void setPrezzo(float prezzo) {
+	public void setPrezzo(Float prezzo) {
 		this.prezzo = prezzo;
 	}
 
