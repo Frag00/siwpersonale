@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<title>Menu della Pizzeria</title>
 	</head>
 	<body> 
@@ -16,7 +17,7 @@
 			<div><p th:if="${!pizze.isEmpty()}">Pizze : </p>
 			<ul>
 				<li th:each="p : ${pizze}">
-					<span th:utext="${p.nome + '  ' + p.prezzo + '<br/>' + p.descrizione}">Pizza</span>
+					<span th:utext="${p.nome + '  ' + p.prezzo + '€' + '<br/>' + p.descrizione}">Pizza</span>
 					<div th:if="${p.immagine}">
 						<div>
 							<img th:src="${p.immagine.nome}" 
@@ -32,7 +33,7 @@
 			<div><p th:if="${!fritti.isEmpty()}">Fritti : </p>
 			<ul>
 				<li th:each="f : ${fritti}">
-					<span th:utext="${f.nome + '  ' + f.prezzo + '<br/>' + f.descrizione}">Fritto</span>
+					<span th:utext="${f.nome + '  ' + f.prezzo + '€' + '<br/>' + f.descrizione}">Fritto</span>
 					<div th:if="${f.immagine}">
 						<div>
 							<img th:src="${f.immagine.nome}" 
@@ -48,7 +49,7 @@
 			<div><p th:if="${!bevande.isEmpty()}">Bevande : </p>
 			<ul>
 				<li th:each="b : ${bevande}">
-					<span th:utext="${b.nome + '  ' + b.prezzo + '<br/>' + b.descrizione}">Bevanda</span>
+					<span th:utext="${b.nome + '  ' + b.prezzo + '€<br/>' + b.descrizione}">Bevanda</span>
 					<div th:if="${b.immagine}">
 						<div>
 							<img th:src="${b.immagine.nome}" 

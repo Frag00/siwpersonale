@@ -15,14 +15,7 @@ public class Review {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	public Pizzeria getPizzeria() {
-		return pizzeria;
-	}
-
-	public void setPizzeria(Pizzeria pizzeria) {
-		this.pizzeria = pizzeria;
-	}
-
+	
 	@NotBlank
 	private String titolo;
 	
@@ -30,7 +23,10 @@ public class Review {
 	@Min(1)
 	@Max(5)
 	private Integer voto;
+	
+	
 	@NotBlank
+	@Column(length = 2000)
 	private String testo;
 	
 	@ManyToOne
@@ -49,6 +45,15 @@ public class Review {
 		this.id = id;
 	}
 
+	public Pizzeria getPizzeria() {
+		return pizzeria;
+	}
+
+	public void setPizzeria(Pizzeria pizzeria) {
+		this.pizzeria = pizzeria;
+	}
+
+	
 	public String getTitolo() {
 		return titolo;
 	}

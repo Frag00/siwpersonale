@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import it.uniroma3.siw.model.Ordine;
 import it.uniroma3.siw.model.Picture;
 import it.uniroma3.siw.model.Pizzeria;
 import it.uniroma3.siw.model.Product;
+import it.uniroma3.siw.model.Review;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.PictureService;
 import it.uniroma3.siw.service.PizzeriaService;
 import it.uniroma3.siw.service.ProductService;
+import it.uniroma3.siw.service.UserService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -31,6 +34,7 @@ public class PizzeriaController {
 	@Autowired PizzeriaService pizzeriaService;
 	@Autowired ProductService productService;
 	@Autowired PictureService pictureService;
+	@Autowired UserService userService;
 	
 	@GetMapping("/pizzerie")
 	public String showPizzerie(Model model) {
@@ -190,6 +194,65 @@ public class PizzeriaController {
 		}
 	}
 	
+	
+	@GetMapping("/admin/pizzerie/{idP}/delete")
+	public String adminDeletesPizzeria(@PathVariable("idP") Long idP, Model model) {
+		
+		Pizzeria p = pizzeriaService.getPizzeriaById(idP).get();
+		
+		// rimuovo prima tutti i legami che avevano i campi della pizzeria con altre entità
+		
+		for(Review r : p.getRecensioni()) {
+			User u = r.getUtente();
+			if(u!=null) {
+				u.getRecensioni().remove(r);
+				userService.saveUser(u);
+			}
+		}
+		
+		for(Ordine o : p.getOrdini()) {
+			User u = o.getUtente();
+			if(u!=null) {
+				u.getOrdini().remove(o);
+				userService.saveUser(u);
+			}
+		}
+		
+		//rimuovo le immagini dal progetto
+		for(Picture pic : p.getImmagini()) {
+			if(pic!=null)
+				pictureService.deletePhysicalImage(pic);
+		}
+		
+		for(Product prod : p.getMenu()) {
+			if(prod!=null)
+				if(prod.getImmagine()!=null)
+					pictureService.deletePhysicalImage(prod.getImmagine());
+		}
+	
+		pizzeriaService.deletePizzeria(p);
+		
+		model.addAttribute("pizzerie", pizzeriaService.getAllPizzerie());
+		return "redirect:/admin/pizzerie";
+	}
+	
+	@GetMapping("/admin/pizzerie/{idP}/menu/{idProd}/remove")
+	public String adminRemovesProductFromPizzeria(@PathVariable("idP") Long idPizzeria, @PathVariable("idProd") Long idProd, Model model) {
+		
+		Product p = productService.getProductById(idProd);
+		
+		Pizzeria pizzeria = pizzeriaService.getPizzeriaById(idPizzeria).get();
+		
+		
+		pizzeria.getMenu().remove(p);
+		
+		//elimino il file dal progetto
+		pictureService.deletePhysicalImage(p.getImmagine());
+		
+		productService.deleteProduct(p);
+		
+		return "redirect:/admin/pizzerie/" + idPizzeria + "/menu";
+	}
 	
 	/* 	USER ***************************/
 	@GetMapping("/user/pizzerie")

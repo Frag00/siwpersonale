@@ -12,4 +12,5 @@ public interface ProductRepository extends CrudRepository<Product,Long> {
 	List<Product> findByTipoAndPizzeria(String tipo, Pizzeria pizzeria);
 
 	boolean existsByNomeAndPizzeria(String nome, Pizzeria pizzeria);
+	
 }

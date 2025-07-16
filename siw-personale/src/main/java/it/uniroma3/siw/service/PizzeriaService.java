@@ -27,4 +27,8 @@ public class PizzeriaService {
 	public void savePizzeria(Pizzeria p) {
 		pizzeriaRepository.save(p);
 	}
+	
+	public void deletePizzeria(Pizzeria p) {	
+		pizzeriaRepository.delete(p);
+	}
 }

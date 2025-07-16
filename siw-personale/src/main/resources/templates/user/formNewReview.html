@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+ <head>
+	 <title>New Review</title>
+ </head>
+ <body>	
+	<div th:if="${user}">
+				<p th:text="${user.nome + ' ' + user.cognome}"></p>
+		  		<p><a href="/logout">Logout</a></p>
+				<p><a th:href="@{/user/profile}">Profilo</a></p>
+			</div>
+	<div th:if="${giaEsiste}" th:text="${giaEsiste}"></div>
+	<div th:unless="${giaEsiste}">
+	 <h1>Aggiungi una recensione alla Pizzeria</h1>
+	 <form th:action="@{/user/pizzerie/{pId}/addReview(pId=${pizzeria.id})}" method="POST" th:object="${review}" >
+		<div>
+		 Titolo: <span><input type="text" th:field="*{titolo}" /></span>
+		 <span th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></span>
+		 </div>
+		 <div>
+		 Voto: <span><input type="number" min="1" max="5" step="1" th:field="*{voto}"/></span>
+		 <span th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}"></span>
+		 </div>
+		 <div>
+		 	Descrizione : <span><input type="text" th:field="*{testo}" /></span>
+	     	<span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}"></span>
+		 </div>
+		 <div>
+		 <span><button type="submit">Aggiungi</button></span>
+		 </div>
+		 
+	 </form>
+	</div>
+	 <p><a href="/user/pizzerie">Torna alla lista di tutte le Pizzerie</a></p>
+	 <p><a href="/user">Torna alla home</a></p>
+ </body>
+</html>

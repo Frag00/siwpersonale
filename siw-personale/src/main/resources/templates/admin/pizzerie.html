@@ -17,6 +17,7 @@
 		 	<li th:each="p : ${pizzerie}">
 		 		<a th:href="@{'/admin/pizzerie' + '/' + ${p.id}}"
 		 		th:text="${p.nome}">titolo</a>
+				<p><a th:href="@{'/admin/pizzerie/' + ${p.id} + '/delete'}">Elimina</a></p>				
 		 	</li>
 		 </ul>
 		 <p><a th:href="@{/admin/formNewPizzeria}">Aggiungi una pizzeria</a></p>
