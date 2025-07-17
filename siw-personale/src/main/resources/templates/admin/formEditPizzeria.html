@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
  <head>
-	 <title>Nuova Pizzeria</title>
+	 <title>Edit Pizzeria</title>
  </head>
  <body>	
 	<h1><strong>SiwPizzeria</strong></h1>
@@ -10,11 +10,8 @@
 		  		<p><a href="/logout">Logout</a></p>
 				<p><a th:href="@{/admin/profile}">Profilo</a></p>
 			</div>
-	 <h1>Aggiungi una Pizzeria</h1>
-	 <form th:action="@{/admin/addPizzeria}" method="POST" th:object="${pizzeria}" enctype="multipart/form-data">
-		<div th:if="${errEsiste}">
-		 	<p th:text="${errEsiste}"></p>
-		</div>
+	 <h1>Modifica la Pizzeria</h1>
+	 <form th:action="@{/admin/pizzerie/{pId}/editPizzeria(pId=${pizzeria.id})}" method="POST" th:object="${pizzeria}" enctype="multipart/form-data">
 		<div>
 		 Nome : <span><input type="text" th:field="${pizzeria.nome}"/></span>
 		 <span th:if="${#fields.hasErrors('nome')}" th:errors="${pizzeria.nome}"></span>
@@ -36,7 +33,7 @@
 		 	                   required/>
 		 </div>
 		 <div>
-		 <span><button type="submit">Aggiungi</button></span>
+		 <span><button type="submit">Conferma</button></span>
 		 </div>
 		 
 	 </form>

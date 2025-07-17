@@ -19,4 +19,12 @@ public class ReviewService {
 	public void saveReview(Review r) {
 		reviewRepository.save(r);
 	}
+	
+	public void deleteReview(Review r) {
+		reviewRepository.delete(r);
+	}
+	
+	public Review getReviewById(Long id) {
+		return reviewRepository.findById(id).get();
+	}
 }

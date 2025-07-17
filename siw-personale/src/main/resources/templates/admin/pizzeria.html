@@ -4,9 +4,11 @@
 		<title>Pizzeria</title>
 	</head>
 	<body> 
+		<h1><strong>SiwPizzeria</strong></h1>
 		<div th:if="${user}">
 					<p th:text="${user.nome + ' ' + user.cognome}"></p>
 			  		<p><a href="/logout">Logout</a></p>
+					<p><a th:href="@{/admin/profile}">Profilo</a></p>
 				</div>
 				<p th:unless="${user}">
 					<span><a href="/login">Accedi</a></span>
@@ -20,6 +22,7 @@
 								<ul>
 									<li th:each="r : ${pizzeria.recensioni}">
 										<span th:utext="${r.titolo + '<br/>' + r.voto + '<br/>' + r.testo + '<br/>' + r.utente.nome + ' ' + r.utente.cognome}">Recensione</span>
+										<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/removeReview/' + ${r.id}}">Elimina recensione</a></p>
 									</li>
 								</ul>
 						</div>
@@ -35,6 +38,7 @@
 		</div>
 		<div th:unless="${pizzeria}">Non esiste</div>
 		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu'}">Visualizza il menu</a></p>
+		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/formEditPizzeria'}">Modifica la Pizzeria</a></p>
 		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/delete'}">Elimina la Pizzeria</a></p>		
 		<p><a href="/admin/pizzerie">Torna alla lista di tutte le pizzerie</a></p>
 		<p><a href="/admin">Torna alla home</a></p>

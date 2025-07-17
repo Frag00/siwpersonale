@@ -29,10 +29,10 @@ public class Review {
 	@Column(length = 2000)
 	private String testo;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Pizzeria pizzeria;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User utente;
 
 	public Review() {}

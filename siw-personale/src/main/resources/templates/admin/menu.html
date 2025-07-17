@@ -5,9 +5,11 @@
 		<title>Menu della Pizzeria</title>
 	</head>
 	<body> 
+		<h1><strong>SiwPizzeria</strong></h1>
 		<div th:if="${user}">
 					<p th:text="${user.nome + ' ' + user.cognome}"></p>
 			  		<p><a href="/logout">Logout</a></p>
+					<p><a th:href="@{/admin/profile}">Profilo</a></p>
 				</div>
 				<p th:unless="${user}">
 					<span><a href="/login">Accedi</a></span>
@@ -26,6 +28,7 @@
 			    		</div>
 					</div> 
 					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${p.id} + '/remove'}">Elimina</a></p>
+					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${p.id} + '/formEditProduct'}">Modifica</a></p>
 				</li>				
 			</ul>
 			</div>	
@@ -42,6 +45,7 @@
 			    		</div>
 					</div> 
 					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${f.id} + '/remove'}">Elimina</a></p>
+					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${f.id} + '/formEditProduct'}">Modifica</a></p>
 				</li>				
 			</ul>
 			</div>	
@@ -58,6 +62,7 @@
 			    		</div>
 					</div> 
 					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${b.id} + '/remove'}">Elimina</a></p>
+					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${b.id} + '/formEditProduct'}">Modifica</a></p>
 				</li>				
 			</ul>
 			</div>	

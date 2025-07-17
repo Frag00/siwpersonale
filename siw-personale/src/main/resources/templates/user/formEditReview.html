@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
  <head>
-	 <title>New Review</title>
+	 <title>Edit Review</title>
  </head>
  <body>	
 	<h1><strong>SiwPizzeria</strong></h1>
@@ -10,10 +10,9 @@
 		  		<p><a href="/logout">Logout</a></p>
 				<p><a th:href="@{/user/profile}">Profilo</a></p>
 			</div>
-	<div th:if="${giaEsiste}" th:text="${giaEsiste}"></div>
-	<div th:unless="${giaEsiste}">
-	 <h1>Aggiungi una recensione alla Pizzeria</h1>
-	 <form th:action="@{/user/pizzerie/{pId}/addReview(pId=${pizzeria.id})}" method="POST" th:object="${review}" >
+	<div>
+	 <h1>Modifica la tua recensione</h1>
+	 <form th:action="@{/user/pizzerie/{pId}/editReview/{rId}(pId=${pizzeria.id}, rId=${review.id})}" method="POST" th:object="${review}" >
 		<div>
 		 Titolo: <span><input type="text" th:field="*{titolo}" /></span>
 		 <span th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></span>
@@ -27,7 +26,7 @@
 	     	<span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}"></span>
 		 </div>
 		 <div>
-		 <span><button type="submit">Aggiungi</button></span>
+		 <span><button type="submit">Conferma modifiche</button></span>
 		 </div>
 		 
 	 </form>

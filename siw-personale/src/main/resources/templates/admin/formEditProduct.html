@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
  <head> 
-	 <title>New Product</title>
+	 <title>Edit Product</title>
  </head>
  <body>	
 	<h1><strong>SiwPizzeria</strong></h1>
@@ -10,11 +10,8 @@
 	  		<p><a href="/logout">Logout</a></p>
 	  		<p><a th:href="@{/admin/profile}">Profilo</a></p>
 		</div>
-	 <h1>Aggiungi un Prodotto al menu della Pizzeria</h1>
-	 <form th:action="@{/admin/pizzerie/{id}/addProduct(id=${pizzeria.id})}" method="POST" th:object="${prodotto}" enctype="multipart/form-data">
-		<div th:if="${errEsiste}">
-		 	<p th:text="${errEsiste}"></p>
-		</div>
+	 <h1>Modifica il prodotto</h1>
+	 <form th:action="@{/admin/pizzerie/{id}/menu/{idPr}/editProduct(id=${pizzeria.id}, idPr=${prodotto.id})}" method="POST" th:object="${prodotto}" enctype="multipart/form-data">
 		<div>
 		 Nome: <span><input type="text" th:field="${prodotto.nome}"/></span>
 		 <span th:if="${#fields.hasErrors('nome')}" th:errors="${prodotto.nome}"></span>
@@ -40,7 +37,7 @@
 		 	                   required/>
 		 </div>
 		 <div>
-		 <span><button type="submit">Aggiungi</button></span>
+		 <span><button type="submit">Conferma</button></span>
 		 </div>
 		 
 	 </form>

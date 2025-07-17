@@ -33,7 +33,7 @@ public class Pizzeria {
 	@OneToMany(mappedBy = "pizzeria", cascade = CascadeType.ALL)
 	private Set<Product> menu;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "pizzeria")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "pizzeria", orphanRemoval = true)
 	private Set<Review> recensioni;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pizzeria")

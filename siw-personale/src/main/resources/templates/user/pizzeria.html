@@ -4,9 +4,11 @@
 		<title>Pizzeria</title>
 	</head>
 	<body> 
+		<h1><strong>SiwPizzeria</strong></h1>
 		<div th:if="${user}">
 					<p th:text="${user.nome + ' ' + user.cognome}"></p>
 			  		<p><a href="/logout">Logout</a></p>
+					<p><a th:href="@{/user/profile}">Profilo</a></p>
 				</div>
 				<p th:unless="${user}">
 					<span><a href="/login">Accedi</a></span>
@@ -20,6 +22,10 @@
 								<ul>
 									<li th:each="r : ${pizzeria.recensioni}">
 										<span th:utext="${r.titolo + '<br/>' + r.voto + '<br/>' + r.testo + '<br/>' + r.utente.nome + ' ' + r.utente.cognome}">Recensione</span>
+										<div th:if="${user == r.getUtente()}">
+											<a th:href="@{'/user/pizzerie/' + ${pizzeria.id} + '/removeReview/' + ${r.id}}">Elimina recensione</a>
+											<p><a th:href="@{'/user/pizzerie/' + ${pizzeria.id} + '/formEditReview/' + ${r.id}}">Modifica recensione</a></p>
+										</div>
 									</li>
 								</ul>
 						</div>

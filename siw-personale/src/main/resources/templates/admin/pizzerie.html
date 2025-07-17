@@ -4,9 +4,11 @@
 		 <title>Pizzerie</title>
 	 </head>
 	 <body>
+		<h1><strong>SiwPizzeria</strong></h1>
 		<div th:if="${user}">
 					<p th:text="${user.nome + ' ' + user.cognome}"></p>
 			  		<p><a href="/logout">Logout</a></p>
+					<p><a th:href="@{/admin/profile}">Profilo</a></p>
 				</div>
 				<p th:unless="${user}">
 					<span><a href="/login">Accedi</a></span>
@@ -17,7 +19,8 @@
 		 	<li th:each="p : ${pizzerie}">
 		 		<a th:href="@{'/admin/pizzerie' + '/' + ${p.id}}"
 		 		th:text="${p.nome}">titolo</a>
-				<p><a th:href="@{'/admin/pizzerie/' + ${p.id} + '/delete'}">Elimina</a></p>				
+				<p><a th:href="@{'/admin/pizzerie/' + ${p.id} + '/delete'}">Elimina</a></p>	
+				<p><a th:href="@{'/admin/pizzerie/' + ${p.id} + '/formEditPizzeria'}">Modifica la Pizzeria</a></p>			
 		 	</li>
 		 </ul>
 		 <p><a th:href="@{/admin/formNewPizzeria}">Aggiungi una pizzeria</a></p>

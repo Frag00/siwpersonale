@@ -247,12 +247,159 @@ public class PizzeriaController {
 		pizzeria.getMenu().remove(p);
 		
 		//elimino il file dal progetto
-		pictureService.deletePhysicalImage(p.getImmagine());
+		if(p.getImmagine()!=null)
+			pictureService.deletePhysicalImage(p.getImmagine());
 		
 		productService.deleteProduct(p);
 		
 		return "redirect:/admin/pizzerie/" + idPizzeria + "/menu";
 	}
+	
+	@GetMapping("/admin/pizzerie/{idP}/menu/{idPr}/formEditProduct")
+	public String showAdminFormEditProduct(@PathVariable("idP") Long idP, @PathVariable("idPr") Long idPr, Model model) {
+		
+		model.addAttribute("pizzeria", pizzeriaService.getPizzeriaById(idP).get());
+		model.addAttribute("prodotto", productService.getProductById(idPr));
+		// per cambiarle dopo 
+		model.addAttribute("foto", productService.getProductById(idPr).getImmagine());
+		return "admin/formEditProduct.html";
+	}
+	
+	
+	@PostMapping("/admin/pizzerie/{idP}/menu/{idPr}/editProduct")
+	public String adminModifiesProductOfPizzeria(@Valid @ModelAttribute("prodotto") Product prodotto, BindingResult bindingResult,@PathVariable("idP") Long idP, @PathVariable("idPr") Long idPr, @RequestParam("imageFile") MultipartFile imageFile, @ModelAttribute("foto") Picture foto, Model model) {
+		if(bindingResult.hasErrors()) {
+			System.out.println("Binding error: " + bindingResult);
+			model.addAttribute("prodotto", prodotto);
+			model.addAttribute("pizzeria", pizzeriaService.getPizzeriaById(idP).get());
+			model.addAttribute("foto", productService.getProductById(idPr).getImmagine());
+			return "admin/formEditProduct.html";
+		}
+		
+		else{
+			Product pr = productService.getProductById(idPr);
+			
+	/* gestione delle immagini */
+	        
+	        if(imageFile==null || imageFile.isEmpty()) {
+	        	model.addAttribute("errIMG", "Errore con l'immagine");
+	        	model.addAttribute("prodotto",prodotto);
+	    		model.addAttribute("pizzeria", pizzeriaService.getPizzeriaById(idP).get());
+	    		model.addAttribute("foto", productService.getProductById(idPr).getImmagine());
+	            return "admin/formEditProduct.html";
+	        }
+
+	        try {
+	            // Gestione immagini
+	               	String name = UUID.randomUUID().toString() + "_" + imageFile.getOriginalFilename();
+	                Picture img = new Picture(name);
+	                this.pictureService.savePhysicalImage(imageFile.getBytes(), name);	               	               
+	        // Associamo la foto all'autore
+	        pr.setImmagine(img);
+	        pr.setNome(prodotto.getNome());
+	        pr.setDescrizione(prodotto.getDescrizione());
+	        pr.setPrezzo(prodotto.getPrezzo());
+	        pr.setTipo(prodotto.getTipo());
+	        
+	        if(foto!=null)
+	        	pictureService.deletePhysicalImage(foto);
+	        
+	    productService.saveProduct(pr);
+		
+		
+		pizzeriaService.savePizzeria(pr.getPizzeria());
+		
+		model.addAttribute("pizzeria", pr.getPizzeria());
+		return "redirect:/admin/pizzerie/" + idP + "/menu";
+		}
+	        catch (Exception e) {
+	        	e.printStackTrace();
+	    		model.addAttribute("pizzeria", pizzeriaService.getPizzeriaById(idP).get());
+	    		model.addAttribute("foto", productService.getProductById(idPr).getImmagine());
+	            return "admin/formEditProduct.html";
+	        }
+		
+		}
+	}
+	
+	@GetMapping("/admin/pizzerie/{idP}/formEditPizzeria")
+	public String showAdminFormEditPizzeria(@PathVariable("idP") Long idP, Model model) {
+		
+		model.addAttribute("Pics", pizzeriaService.getPizzeriaById(idP).get().getImmagini());
+		model.addAttribute("pizzeria",pizzeriaService.getPizzeriaById(idP).get());
+		
+		return "admin/formEditPizzeria.html";
+	}
+	
+	@PostMapping("/admin/pizzerie/{pId}/editPizzeria")
+	public String adminEditsPizzeria(@Valid @ModelAttribute("pizzeria") Pizzeria pizzeria,BindingResult bindingResult,@RequestParam("imageFiles") MultipartFile[] imageFiles, @PathVariable("pId") Long idP, @ModelAttribute("Pics") Set<Picture> pics, Model model) {
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("Pics", pizzeriaService.getPizzeriaById(idP).get().getImmagini());
+			pizzeria.setId(idP);
+			model.addAttribute("pizzeria",pizzeria);
+			return "admin/formEditPizzeria.html";
+		}
+		
+		else {
+	        
+			Pizzeria pi = pizzeriaService.getPizzeriaById(idP).get();
+			
+			Set<Picture> oldImages = new HashSet<>(pi.getImmagini());
+			
+	        /* gestione delle immagini */
+	        
+	        if(imageFiles.length == 0 || (imageFiles.length == 1 && imageFiles[0].isEmpty())) {
+	        	pizzeria.setId(idP);
+				model.addAttribute("pizzeria",pizzeria);
+	        	model.addAttribute("Pics", pizzeriaService.getPizzeriaById(idP).get().getImmagini());
+	            return "admin/formEditPizzeria.html";
+	        }
+
+	        try {
+	            // Gestione immagini
+	            Set<Picture> images = new HashSet<Picture>();
+	            for (MultipartFile file : imageFiles) {
+	                if (!file.isEmpty()) {
+	                	String name = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+	                    Picture img = new Picture(name);
+	                    this.pictureService.savePhysicalImage(file.getBytes(), name);
+	                    images.add(img);
+	                }
+	            }
+
+	        // Associamo le immagini alla pizzeria
+	        pi.setImmagini(images);
+	        pi.setCitta(pizzeria.getCitta());
+	        pi.setIndirizzo(pizzeria.getIndirizzo());
+	        pi.setNome(pizzeria.getNome());
+	      
+	        
+	     // elimino le vecchie immagini
+			for(Picture foto : oldImages) {
+				if(foto!=null)
+					pictureService.deletePhysicalImage(foto);
+			}    
+	        
+		this.pizzeriaService.savePizzeria(pi);
+		
+		
+		
+		model.addAttribute("pizzeria",pi);
+		return "redirect:/admin/pizzerie/"+ pi.getId();
+	      }
+	        
+	        catch (Exception e) {
+	        	model.addAttribute("Pics", pizzeriaService.getPizzeriaById(idP).get().getImmagini());
+	        	pizzeria.setId(idP);
+				model.addAttribute("pizzeria",pizzeria);
+	        	return "admin/formEditPizzeria.html";
+	        }
+		}
+	}
+	
+	
+	
+	
 	
 	/* 	USER ***************************/
 	@GetMapping("/user/pizzerie")

@@ -4,6 +4,7 @@
 		<title>Profilo utente</title>
 	</head>
 	<body> 
+		<h1><strong>SiwPizzeria</strong></h1>
 		<div th:if="${user}">
 					<p th:text="${user.nome + ' ' + user.cognome}"></p>
 			  		<p><a href="/logout">Logout</a></p>
@@ -17,13 +18,16 @@
 					<ul>
 						<li th:each="r : ${recensioni}">
 							<span th:utext="${r.titolo + '<br/>' + r.voto + '<br/>' + r.testo + '<br/>'}">Recensione</span>
-							<p th:if="${r.libro}">
-								<span>Relativa al libro :</span>
-								<a th:href="@{'/user/book' + '/' + ${r.libro.id}}" th:text="${' ' + r.libro.titolo}">Libro</a>
+							<p th:if="${r.pizzeria}">
+								<span>Relativa alla pizzeria :</span>
+								<a th:href="@{'/user/pizzerie' + '/' + ${r.pizzeria.id}}" th:text="${' ' + r.pizzeria.nome}">Pizzeria</a>
 							</p>
 						</li>
 					</ul>
 			</div> 
+			<div th:if="${user.recensioni.isEmpty()}">
+						    <p>Non hai lasciato nessuna recensione.</p>
+						</div>
 			<div th:if="${!ordini.isEmpty()}">
 			    <h3>I tuoi ordini:</h3>
 			    <ul>

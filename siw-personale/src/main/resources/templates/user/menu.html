@@ -5,9 +5,11 @@
 		<title>Menu della Pizzeria</title>
 	</head>
 	<body> 
+		<h1><strong>SiwPizzeria</strong></h1>
 		<div th:if="${user}">
 					<p th:text="${user.nome + ' ' + user.cognome}"></p>
 			  		<p><a href="/logout">Logout</a></p>
+					<p><a th:href="@{/user/profile}">Profilo</a></p>
 				</div>
 				<p th:unless="${user}">
 					<span><a href="/login">Accedi</a></span>

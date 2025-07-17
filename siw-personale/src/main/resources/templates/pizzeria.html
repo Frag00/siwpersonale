@@ -11,6 +11,7 @@
 				<p th:unless="${user}">
 					<span><a href="/login">Accedi</a></span>
 					<span><a href="/register">Registrati</a></span></p>	
+		<h1><strong>SiwPizzeria</strong></h1>
 		<div th:if="${pizzeria}">
 			<h1 th:text="${pizzeria.nome}">Nome Pizzeria</h1>
 			<div>Città: <span th:text="${pizzeria.citta}">Roma</span></div>
