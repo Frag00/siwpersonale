@@ -29,21 +29,7 @@
 						    <p>Non hai lasciato nessuna recensione.</p>
 						</div>
 			<div th:if="${!ordini.isEmpty()}">
-			    <h3>I tuoi ordini:</h3>
-			    <ul>
-			        <li th:each="ordine : ${ordini}">
-			            <p>
-			                <strong>Ordine per la Pizzeria:</strong> <span th:text="${' ' + ordine.pizzeria.nome}"></span><br/>
-			            </p>
-			            <div th:if="${!ordine.rigaOrdine.isEmpty()}">
-			                <ul>
-			                    <li th:each="r : ${ordine.rigaOrdine}">
-			                        <span th:text="'Prodotto: ' + ${r.prodotto.nome} + ' | Quantità: ' + ${r.quantita}"></span>
-			                    </li>
-			                </ul>
-			            </div>
-			        </li>
-			    </ul>
+			   	<span><a th:href="@{/user/ordini}">Visualizza i tuoi ordini</a></span>
 			</div>
 
 			<div th:if="${ordini.isEmpty()}">

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+ <head>
+	 <title>New Review</title>
+ </head>
+ <body>	
+	<h1><strong>SiwPizzeria</strong></h1>
+	<div th:if="${user}">
+				<p th:text="${user.nome + ' ' + user.cognome}"></p>
+		  		<p><a href="/logout">Logout</a></p>
+				<p><a th:href="@{/user/profile}">Profilo</a></p>
+			</div>
+    <h2>Nuovo Ordine - <span th:text="${pizzeria.nome}">Nome Pizzeria</span></h2>
+    <p>Indirizzo: <span th:text="${pizzeria.indirizzo}">Indirizzo</span>, <span th:text="${pizzeria.citta}">Città</span></p>
+    
+    <!-- Form per aggiornare il riepilogo -->
+    <form th:action="@{/user/pizzerie/{pId}/ordine/riepilogo(pId=${pizzeria.id})}" method="post">
+        <input type="hidden" name="pizzeriaId" th:value="${pizzeria.id}" />
+        
+        <h3>Menu</h3>
+        
+        <div th:each="prodotto : ${pizzeria.menu}">
+            <div>
+                <h4 th:text="${prodotto.nome}">Nome Prodotto</h4>
+                <p th:text="${prodotto.descrizione}">Descrizione</p>
+                <p>Tipo: <span th:text="${prodotto.tipo}">Tipo</span></p>
+                <p>Prezzo: <span th:text="${prodotto.prezzo}">0.00</span> €</p>
+                
+                <div th:if="${prodotto.immagine != null}">
+                    <img th:src="${prodotto.immagine.nome}" 
+                         alt="Immagine prodotto" width="100" height="100">
+                </div>
+                
+                <label th:for="'quantita_' + ${prodotto.id}">Quantità:</label>
+                <input type="number" 
+                       th:id="'quantita_' + ${prodotto.id}"
+                       th:name="'quantita_' + ${prodotto.id}"
+                       th:value="${quantita != null ? quantita.get(prodotto.id) : 0}"
+                       min="0" 
+                       max="20">
+                <hr>
+            </div>
+        </div>
+        
+        <button type="submit">Aggiorna Riepilogo</button>
+    </form>
+    
+    <!-- Riepilogo Ordine -->
+    <div th:if="${riepilogo != null and !riepilogo.empty}">
+        <h3>Riepilogo Ordine</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Prodotto</th>
+                    <th>Quantità</th>
+                    <th>Prezzo Unitario</th>
+                    <th>Subtotale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="riga : ${riepilogo}">
+                    <td th:text="${riga.prodotto.nome}">Nome Prodotto</td>
+                    <td th:text="${riga.quantita}">1</td>
+                    <td>€<span th:text="${riga.prodotto.prezzo}">0.00</span></td>
+                    <td>€<span th:text="${#numbers.formatDecimal(riga.prodotto.prezzo * riga.quantita, 1, 2)}">0.00</span></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p><strong>Totale: €<span th:text="${#numbers.formatDecimal(totale, 1, 2)}">0.00</span></strong></p>
+        
+        <!-- Form per confermare l'ordine -->
+        <form th:action="@{/user/pizzerie/{pId}/addOrdine(pId=${pizzeria.id})}" method="post">
+            <input type="hidden" name="pizzeriaId" th:value="${pizzeria.id}" />
+            
+            <!-- Campi hidden per mantenere le quantità -->
+            <div th:each="prodotto : ${pizzeria.menu}">
+                <input type="hidden" 
+                       th:name="'quantita_' + ${prodotto.id}"
+                       th:value="${quantita != null ? quantita.get(prodotto.id) : 0}">
+            </div>
+            
+			
+			<label for="indirizzoConsegna">Indirizzo di consegna:</label>
+			<input type="text" id="indirizzoConsegna" name="indirizzoConsegna" required>
+
+			<label for="orarioConsegna">Orario di consegna:</label>
+			<input type="time" id="orarioConsegna" name="orarioConsegna" required>
+			
+            <button type="submit">Conferma Ordine</button>
+        </form>
+    </div>
+    
+    <div th:if="${riepilogo == null or riepilogo.empty}">
+        <p>Seleziona i prodotti e clicca "Aggiorna Riepilogo" per vedere il riepilogo dell'ordine</p>
+    </div>
+	
+	<div th:if="${success}" class="alert alert-success">
+	    <p th:text="${success}"></p>
+	</div>
+	<div th:if="${error}" class="alert alert-danger">
+	    <p th:text="${error}"></p>
+	</div>
+	
+	<p><a href="/user/pizzerie">Torna alla lista di tutte le Pizzerie</a></p>
+	 <p><a href="/user">Torna alla home</a></p>
+</body>
+</html>

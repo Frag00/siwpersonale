@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Ordini</title>
+</head>
+<body>
+    <h1><strong>SiwPizzeria</strong></h1>
+
+    <div th:if="${user}">
+        <p th:text="${user.nome + ' ' + user.cognome}"></p>
+        <p><a href="/logout">Logout</a></p>
+        <p><a th:href="@{/admin/profile}">Profilo</a></p>
+    </div>
+    <p th:unless="${user}">
+        <span><a href="/login">Accedi</a></span>
+        <span><a href="/register">Registrati</a></span>
+    </p>
+
+    <h2>Lista degli ordini per la pizzeria: <a th:href="@{'/admin/pizzerie/' + ${pizzeria.id}}" th:text="${pizzeria.nome}"></a></h2>
+
+    <div th:if="${ordini.isEmpty()}">Non ci sono ordini per la pizzeria.</div>
+    <ul th:unless="${ordini.isEmpty()}">
+        <li th:each="o : ${ordini}">
+            <a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/ordini/' + ${o.id}}">
+                Ordine da parte dell' utente <span th:text="${' ' + o.utente.nome + ' ' + o.utente.cognome}">Utente</span> per le ore 
+                <span th:text="${o.orarioConsegna}">Orario</span>
+            </a>
+        </li>
+    </ul>
+
+    <p><a href="/admin">Torna alla home</a></p>
+</body>
+</html>

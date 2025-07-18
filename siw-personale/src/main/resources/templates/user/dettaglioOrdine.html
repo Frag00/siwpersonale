@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dettaglio Ordine</title>
+</head>
+<body>
+    <h1><strong>SiwPizzeria</strong></h1>
+
+    <div th:if="${user}">
+        <p th:text="${user.nome + ' ' + user.cognome}"></p>
+        <p><a href="/logout">Logout</a></p>
+        <p><a th:href="@{/user/profile}">Profilo</a></p>
+    </div>
+    <p th:unless="${user}">
+        <span><a href="/login">Accedi</a></span>
+        <span><a href="/register">Registrati</a></span>
+    </p>
+
+    <h2>Dettaglio dell'Ordine</h2>
+
+    <div>
+        <p><strong>Pizzeria:</strong> <span th:text="${ordine.pizzeria.nome}"></span></p>
+        <p><strong>Indirizzo di Consegna:</strong> <span th:text="${ordine.indirizzoConsegna}"></span></p>
+        <p><strong>Orario di Consegna:</strong> <span th:text="${ordine.orarioConsegna}"></span></p>
+    </div>
+
+    <h3>Prodotti Ordinati</h3>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Prodotto</th>
+                <th>Quantità</th>
+                <th>Prezzo Unitario</th>
+                <th>Subtotale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="riga : ${ordine.rigaOrdine}">
+                <td th:text="${riga.prodotto.nome}">Nome Prodotto</td>
+                <td th:text="${riga.quantita}">1</td>
+                <td>€<span th:text="${riga.prodotto.prezzo}">0.00</span></td>
+                <td>€<span th:text="${#numbers.formatDecimal(riga.prodotto.prezzo * riga.quantita, 1, 2)}">0.00</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Totale:</strong> €<span th:text="${totale}">0.00</span></p>
+
+	<div th:if="${success}" class="alert alert-success">
+	    <p th:text="${success}"></p>
+	</div>
+	<div th:if="${error}" class="alert alert-danger">
+	    <p th:text="${error}"></p>
+	</div>
+	
+	<p><a th:href="@{'/user/ordini/' + ${ordine.id} + '/edit'}">Modifica ordine</a></p>
+	<p><a th:href="@{'/user/ordini/' + ${ordine.id} + '/delete'}">Elimina ordine</a></p>
+    <p><a href="/user/ordini">Torna alla lista dei tuoi ordini</a></p>
+    <p><a href="/user">Torna alla home</a></p>
+</body>
+</html>

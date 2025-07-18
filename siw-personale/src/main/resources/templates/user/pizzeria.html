@@ -40,6 +40,7 @@
 			</div> 
 		</div>
 		<div><a th:href="@{'/user/pizzerie/' + ${pizzeria.id} + '/formNewReview'}">Lascia una recensione</a></div>
+		<div><a th:href="@{'/user/pizzerie/' + ${pizzeria.id} + '/formNewOrdine'}">Effettua un ordine</a></div>
 		<div th:unless="${pizzeria}">Non esiste</div>
 		<p><a th:href="@{'/user/pizzerie/' + ${pizzeria.id} + '/menu'}">Visualizza il menu</a></p>
 		<p><a href="/user/pizzerie">Torna alla lista di tutte le pizzerie</a></p>

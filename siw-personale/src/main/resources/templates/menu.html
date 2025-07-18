@@ -6,9 +6,11 @@
 	</head>
 	<body> 
 		<div th:if="${user}">
-					<p th:text="${user.nome + ' ' + user.cognome}"></p>
-			  		<p><a href="/logout">Logout</a></p>
-				</div>
+			  			<p>Si è verificato un errore, <span th:text="${user.nome + ' ' + user.cognome}"></span>, effettua il Logout!</p>
+			  	  		<p><a href="/logout">Logout</a></p>
+			  		</div>
+					
+		<div th:unless="${user}">			
 				<p th:unless="${user}">
 					<span><a href="/login">Accedi</a></span>
 					<span><a href="/register">Registrati</a></span></p>
@@ -70,5 +72,8 @@
 		<p><a th:href="@{'/pizzerie/' + ${pizzeria.id}}">Torna alla pizzeria</a></p>
 		<p><a href="/pizzerie">Torna alla lista di tutte le pizzerie</a></p>
 		<p><a href="/">Torna alla home</a></p>
+		
+		</div>
+		
 	</body>
 </html>

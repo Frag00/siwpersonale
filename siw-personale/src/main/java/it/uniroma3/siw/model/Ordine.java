@@ -22,16 +22,22 @@ public class Ordine {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+    private String indirizzoConsegna;
+
+    private LocalTime orarioConsegna;
+	
 	@ManyToOne
 	private User utente;
 	
 	@ManyToOne
 	private Pizzeria pizzeria;
 	
-	@OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RigaOrdine> righeOrdine;
 	
-	public Ordine() {}
+	public Ordine() { 
+		this.righeOrdine= new ArrayList<>();
+	}
 	
 	public void aggiungiProdotto(Product prodotto, int quantita) {
         RigaOrdine op = new RigaOrdine();
@@ -71,6 +77,24 @@ public class Ordine {
 
 	public void setRigaOrdine(List<RigaOrdine> rigaOrdine) {
 		this.righeOrdine = rigaOrdine;
+	}
+	
+	
+
+	public String getIndirizzoConsegna() {
+		return indirizzoConsegna;
+	}
+
+	public void setIndirizzoConsegna(String indirizzoConsegna) {
+		this.indirizzoConsegna = indirizzoConsegna;
+	}
+
+	public LocalTime getOrarioConsegna() {
+		return orarioConsegna;
+	}
+
+	public void setOrarioConsegna(LocalTime orarioConsegna) {
+		this.orarioConsegna = orarioConsegna;
 	}
 
 	@Override

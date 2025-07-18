@@ -38,6 +38,7 @@
 		</div>
 		<div th:unless="${pizzeria}">Non esiste</div>
 		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu'}">Visualizza il menu</a></p>
+		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/ordini'}">Visualizza tutti gli Ordini per la pizzeria</a></p>
 		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/formEditPizzeria'}">Modifica la Pizzeria</a></p>
 		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/delete'}">Elimina la Pizzeria</a></p>		
 		<p><a href="/admin/pizzerie">Torna alla lista di tutte le pizzerie</a></p>
