@@ -1,48 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<title>Pizzeria</title>
+		<title>Dettagli Pizzeria</title>
+        <link rel="stylesheet" href="/css/stylesPizzeria.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 	</head>
 	<body> 
-		<div th:if="${user}">
-					  			<p>Si è verificato un errore, <span th:text="${user.nome + ' ' + user.cognome}"></span>, effettua il Logout!</p>
-					  	  		<p><a href="/logout">Logout</a></p>
-					  		</div>
-							
-		<div th:unless="${user}">					
-							
-				<p th:unless="${user}">
-					<span><a href="/login">Accedi</a></span>
-					<span><a href="/register">Registrati</a></span></p>	
-		<h1><strong>SliceVerse</strong></h1>
-		<div th:if="${pizzeria}">
-			<h1 th:text="${pizzeria.nome}">Nome Pizzeria</h1>
-			<div>Città: <span th:text="${pizzeria.citta}">Roma</span></div>
-			<div>Indirizzo: <span th:text="${pizzeria.indirizzo}">Via Vito Volterra</span></div>
-			<div th:if="${!pizzeria.recensioni.isEmpty()}">
-							<h3>Recensioni:</h3>
-								<ul>
-									<li th:each="r : ${pizzeria.recensioni}">
-										<span th:utext="${r.titolo + '<br/>' + r.voto + '<br/>' + r.testo + '<br/>' + r.utente.nome + ' ' + r.utente.cognome}">Recensione</span>
-									</li>
-								</ul>
-						</div>
-			<div th:if="${!pizzeria.immagini.isEmpty()}">
-			  <h3>Immagini:</h3>
-			  <div>
-			    <img th:each="img : ${pizzeria.immagini}" 
-			         th:src="${img.nome}" 
-			         alt="Immagine pizzeria" 
-			         style="max-width: 200px; max-height: 200px; margin: 5px;" />
-			  </div>
-			</div> 
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-brand">
+                    <a href="/" class="logo">SliceVerse</a>
+                </div>
+                <div class="navbar-nav">
+                    <div th:if="${user}" class="user-info">
+                        <p class="user-name">Si è verificato un errore, <span th:text="${user.nome + ' ' + user.cognome}"></span></p>
+                        <div class="user-actions">
+                            <a href="/logout" class="btn btn-logout">Logout</a>
+                        </div>
+                    </div>
+                    <div th:unless="${user}" class="auth-buttons">
+                        <a href="/login" class="btn btn-login">Accedi</a>
+                        <a href="/register" class="btn btn-register">Registrati</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="pizzeria-main-content">
+            <div th:if="${pizzeria}">
+                <div class="pizzeria-header-section section-card-dark"> 
+                    <h1 class="pizzeria-title" th:text="${pizzeria.nome}">Nome Pizzeria</h1>
+                    
+                    <div class="pizzeria-info-details">
+                        <div>Città: <strong><span th:text="${pizzeria.citta}">Roma</span></strong></div>
+                        <div>Indirizzo: <strong><span th:text="${pizzeria.indirizzo}">Via Vito Volterra</span></strong></div>
+                    </div>
+                </div>
+
+                <div class="sections-grid">
+                    <div th:if="${!pizzeria.recensioni.isEmpty()}" class="reviews-section section-card-dark">
+                        <h3>Recensioni:</h3>
+                        <ul>
+                            <li th:each="r : ${pizzeria.recensioni}">
+                                <div class="review-header">
+                                    <strong><span th:text="${r.titolo}">Titolo Recensione</span></strong>
+                                    <div class="review-rating-stars">
+                                        <i th:each="i : ${#numbers.sequence(1, r.voto)}" class="bi bi-star-fill"></i>
+                                    </div>
+                                </div>
+                                <p th:text="${r.testo}">Testo Recensione</p>
+                                <em><span th:text="${r.utente.nome + ' ' + r.utente.cognome}">Nome Utente</span></em>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div th:if="${!pizzeria.immagini.isEmpty()}" class="images-section section-card-dark">
+                        <h3>Immagini:</h3>
+                        <div class="images-container">
+                            <img th:each="img : ${pizzeria.immagini}" 
+                                th:src="${img.nome}" 
+                                alt="Immagine pizzeria" />
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <div th:unless="${pizzeria}" class="no-pizzeria-message">Non esiste</div>
+
+            <div class="navigation-buttons-area">
+                <div class="navigation-buttons-container">
+                    <a th:href="@{'/pizzerie/' + ${pizzeria.id} + '/menu'}" class="btn-navigation">Visualizza il menu</a>
+                    <a href="/pizzerie" class="btn-navigation">Torna alla lista di tutte le pizzerie</a>
+                    <a href="/" class="btn-navigation">Torna alla home</a>
+                </div>
+            </div>
 		</div>
-		<div th:unless="${pizzeria}">Non esiste</div>
-		<p><a th:href="@{'/pizzerie/' + ${pizzeria.id} + '/menu'}">Visualizza il menu</a></p>
-		<p><a href="/pizzerie">Torna alla lista di tutte le pizzerie</a></p>
-		<p><a href="/">Torna alla home</a></p>
 		
-		</div>
-		
+        <footer class="footer">
+            <p>&copy; SliceVerse - Esplora, ordina, assapora</p>
+        </footer>
 	</body>
 </html>

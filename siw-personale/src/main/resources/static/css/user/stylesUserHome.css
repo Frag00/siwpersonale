@@ -1,0 +1,401 @@
+/* Import Google Fonts - Poppins for modern look */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* Slightly toned-down red gradient for professionalism */
+    background: linear-gradient(135deg, #cc2936 0%, #8b0000 50%, #3d0000 100%); /* Crimson to dark maroon */
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevents horizontal scroll */
+    display: flex;
+    flex-direction: column; /* For sticky footer */
+    color: white; /* Default text color */
+}
+
+/* Animated Background Elements - Subtle instead of dominant */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 100, 100, 0.15) 0%, transparent 50%), /* Reduced opacity */
+        radial-gradient(circle at 80% 20%, rgba(255, 150, 150, 0.15) 0%, transparent 50%), /* Reduced opacity */
+        radial-gradient(circle at 40% 40%, rgba(255, 50, 50, 0.15) 0%, transparent 50%); /* Reduced opacity */
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: -1; /* Ensures it stays behind content */
+    animation: backgroundShift 25s ease-in-out infinite; /* Slower animation */
+}
+
+@keyframes backgroundShift {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; } /* Less extreme opacity shift */
+}
+
+/* Navbar */
+.navbar {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    backdrop-filter: blur(20px); /* Frosted glass effect */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* More subtle border */
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Slightly stronger subtle shadow */
+    transition: all 0.3s ease;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px; /* Horizontal padding */
+    width: 100%;
+}
+
+.navbar-brand .logo {
+    font-size: 2rem;
+    font-weight: 800;
+    /* Red-themed gradient text for logo - slightly toned down */
+    background: linear-gradient(45deg, #e63946, #b00000); /* Red to darker red */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.navbar-brand .logo .btn-icon { /* Pizza icon in logo */
+    /* No rotation animation for less playful look */
+    transition: transform 0.3s ease; /* Subtle hover animation */
+}
+.navbar-brand .logo .btn-icon:hover {
+    transform: rotate(10deg); /* Small rotation on hover */
+}
+
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #2c3e50; /* Dark text for contrast on white navbar */
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.user-actions {
+    display: flex;
+    gap: 15px; /* Spazio tra i bottoni Logout e Profilo */
+    margin: 0;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* General Button Styles */
+.btn {
+    padding: 10px 25px;
+    border-radius: 30px; /* Pill shape */
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Red-themed button gradients - slightly more muted */
+.btn-login {
+    background: linear-gradient(45deg, #ed6a5a, #f4a261); /* Salmon to orange */
+    color: white;
+    box-shadow: 0 4px 15px rgba(237, 106, 90, 0.3);
+}
+
+.btn-register {
+    background: linear-gradient(45deg, #e05b5b, #c02929); /* Muted red to darker red */
+    color: white;
+    box-shadow: 0 4px 15px rgba(224, 91, 91, 0.3);
+}
+
+.btn-logout {
+    background: linear-gradient(45deg, #e74c3c, #c0392b); /* Standard red gradient for logout */
+    color: white;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.btn-icon {
+    font-size: 1.2em; /* Adjust icon size relative to text */
+}
+
+/* Hero Section */
+.hero-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 30px;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+    .hero-section {
+        flex-direction: row;
+        text-align: left;
+        padding: 80px 30px;
+    }
+}
+
+.hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+@media (min-width: 992px) {
+    .hero-content {
+        align-items: flex-start;
+        padding-right: 50px;
+    }
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    /* Subtler gradient for title */
+    background: linear-gradient(45deg, #fff, #ffe6e6); /* White to very light red */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-title.error-message {
+    background: linear-gradient(45deg, #f8d7da, #dc3545); /* Light red to danger red for error */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 600px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+@media (min-width: 992px) {
+    .hero-buttons {
+        justify-content: flex-start;
+    }
+}
+
+/* Main action button - primary red */
+.btn-primary {
+    background: linear-gradient(45deg, #e63946, #c20000); /* Main red gradient */
+    color: white;
+    padding: 15px 35px;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Secondary button (if needed, example kept for structure) */
+.btn-secondary {
+    background: linear-gradient(45deg, #f39c12, #e67e22); /* Orange gradient (can be adapted) */
+    color: white;
+    padding: 15px 35px;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Hero Image: The Pizza! */
+.hero-image {
+    position: relative;
+    width: 250px; /* Maintain original size structure */
+    height: 250px;
+    background: none; /* No background for the circle itself, image will fill it */
+    border-radius: 50%;
+    display: flex; /* Still flex for centering the image */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: pulse 4s infinite ease-in-out; /* Subtle pulse animation */
+    margin-top: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.2); /* Subtler border */
+    overflow: hidden; /* Ensure image stays within circle */
+}
+
+.hero-image .pizza-main-image {
+    width: 100%; /* Fill the container */
+    height: 100%;
+    object-fit: cover; /* Crop image to fit circle */
+    border-radius: 50%; /* Ensure image is also circular */
+    display: block; /* Remove extra space below image */
+}
+
+/* Remove floating elements entirely */
+/* .floating-element, .element-1, .element-2, .element-3, .element-4 { display: none; } */
+/* No need for the above, just remove them from HTML */
+
+@media (min-width: 992px) {
+    .hero-image {
+        width: 350px;
+        height: 350px;
+        margin-top: 0;
+        margin-left: 50px;
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); }
+    50% { transform: scale(1.02); box-shadow: 0 12px 45px rgba(0, 0, 0, 0.25); } /* Less aggressive pulse */
+    100% { transform: scale(1); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); }
+}
+
+/* Footer (consistent with other pages) */
+.footer {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: auto;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 0 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .navbar-brand .logo {
+        font-size: 1.5rem;
+    }
+
+    .hero-section {
+        padding: 40px 20px;
+        gap: 30px;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.8rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .btn-primary, .btn-secondary, .btn-login, .btn-register, .btn-logout, .btn-profile {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+
+    .hero-image {
+        width: 200px;
+        height: 200px;
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+    .hero-image {
+        width: 150px;
+        height: 150px;
+    }
+}

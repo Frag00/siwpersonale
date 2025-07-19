@@ -1,0 +1,536 @@
+/* Importa Bootstrap CSS - per componenti aggiuntivi */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* Reset e configurazione base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* Sfondo COERENTE con index.css */
+    background: linear-gradient(135deg, #cc2936 0%, #8b0000 50%, #3d0000 100%); /* Crimson to dark maroon */
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    color: white; /* Testo di base sul body bianco */
+}
+
+/* Effetti di background animati con colori rossi/arancioni (COERENTE con index.css) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Colori e opacità COERENTI con index.css */
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 100, 100, 0.15) 0%, transparent 50%), /* Reduced opacity */
+        radial-gradient(circle at 80% 20%, rgba(255, 150, 150, 0.15) 0%, transparent 50%), /* Reduced opacity */
+        radial-gradient(circle at 40% 40%, rgba(255, 50, 50, 0.15) 0%, transparent 50%); /* Reduced opacity */
+    pointer-events: none;
+    z-index: -1;
+    animation: backgroundShift 25s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; } /* Less extreme opacity shift */
+}
+
+/* Navbar moderna con colori pizzeria (leggero ritocco per coerenza con index) */
+.navbar {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    backdrop-filter: blur(20px); /* Frosted glass effect */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* More subtle border (COERENTE con index.css) */
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Slightly stronger subtle shadow (COERENTE con index.css) */
+    transition: all 0.3s ease;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    width: 100%;
+}
+
+.navbar-brand .logo {
+    font-size: 2rem;
+    font-weight: 800;
+    /* Gradiente rosso per il logo - COERENTE con index.css */
+    background: linear-gradient(45deg, #e63946, #b00000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    text-decoration: none;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.user-actions {
+    display: flex;
+    gap: 15px;
+    margin: 0;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* Stili Generali dei Bottoni - Colori pizzeria (mantenuti come da ultima revisione, coerenti con pulsanti secondari dell'index) */
+.btn {
+    padding: 10px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-login {
+    background: linear-gradient(45deg, #ed6a5a, #f4a261); /* Salmon to orange (COERENTE con index.css btn-login) */
+    color: white;
+    box-shadow: 0 4px 15px rgba(237, 106, 90, 0.3);
+}
+
+.btn-register {
+    background: linear-gradient(45deg, #e05b5b, #c02929); /* Muted red to darker red (COERENTE con index.css btn-register) */
+    color: white;
+    box-shadow: 0 4px 15px rgba(224, 91, 91, 0.3);
+}
+
+.btn-logout {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    color: white;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Stili specifici per la pagina della pizzeria */
+.pizzeria-main-content {
+    flex-grow: 1;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white; /* Testo di default all'interno delle card scure */
+    text-shadow: none;
+}
+
+/* Stile per i riquadri delle sezioni (Pizzeria Info, Recensioni, Immagini) */
+/* Questa è la classe per i riquadri scuri principali */
+.section-card-dark { 
+    background: rgba(0, 0, 0, 0.4); /* Nero molto trasparente per un look più scuro */
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section-card-dark:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Intestazione della Pizzeria (primo riquadro) - Usa section-card-dark */
+.pizzeria-header-section {
+    text-align: center;
+}
+
+.pizzeria-title {
+    font-size: 3.8rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #ffffff, #ffeded); /* Bianco brillante per il titolo sulla card scura */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    line-height: 1.1;
+}
+
+.pizzeria-info-details {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+}
+.pizzeria-info-details strong {
+    color: white;
+}
+
+.no-pizzeria-message {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
+    margin: 40px auto;
+}
+
+/* Griglia per Recensioni e Immagini */
+.sections-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Contenitore principale delle Recensioni - TORNATO SCURO */
+.reviews-section {
+    background: rgba(0, 0, 0, 0.4); /* Nero molto trasparente */
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 25px; /* Padding per l'intera sezione */
+    text-align: left;
+    color: white; /* Testo di default sul contenitore scuro */
+}
+
+.reviews-section:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.reviews-section h3 { /* Titolo della sezione recensioni (sul contenitore scuro) */
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: white; /* Bianco per il titolo */
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Bordo sottile bianco */
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+/* Stili specifici per i singoli elementi recensione (i "sottoriquadri" - ORA SCURI DI NUOVO) */
+.reviews-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.reviews-section li {
+    background: rgba(255, 255, 255, 0.08); /* Sfondo leggero sul scuro */
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Bordo sottile */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    display: flex; /* Flexbox per il layout "allegro" */
+    flex-direction: column; /* Colonna di default */
+    gap: 8px; /* Spazio tra gli elementi */
+}
+
+.reviews-section li:last-child {
+    margin-bottom: 0;
+}
+
+.reviews-section li:hover {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Stili per le informazioni all'interno del LI */
+.review-header { /* Contenitore per titolo e stelle */
+    display: flex;
+    justify-content: space-between; /* Allinea titolo a sinistra, stelle a destra */
+    align-items: center;
+    margin-bottom: 5px; /* Spazio sotto l'header */
+    flex-wrap: wrap; /* Permette il wrapping su schermi piccoli */
+    gap: 10px; /* Spazio tra titolo e stelle se wrap */
+}
+
+.reviews-section strong { /* Titolo recensione */
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffcccc; /* Rosso chiaro per risaltare sul scuro */
+    margin-right: auto; /* Spinge le stelle a destra */
+}
+
+.review-rating-stars { /* Nuovo stile per le stelle */
+    font-size: 1.3rem; /* Dimensione delle stelle */
+    color: #ffd700; /* Giallo oro per le stelle */
+    display: flex;
+    gap: 3px; /* Spazio tra le stelle */
+    align-items: center;
+}
+
+.reviews-section p { /* Testo della recensione */
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9); /* Bianco quasi puro */
+    margin-top: 5px; /* Spazio sopra il testo */
+    margin-bottom: 5px; /* Spazio sotto il testo */
+}
+
+.reviews-section em { /* Nome utente */
+    font-size: 0.95rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.7); /* Grigio chiaro per il nome utente */
+    margin-top: auto; /* Spinge in basso il nome utente se flex-direction: column */
+    text-align: right;
+    display: block; /* Assicura che sia su una riga separata se necessario */
+}
+
+
+/* Stili specifici per la sezione IMMAGINI (mantenuta scura) - Usa section-card-dark */
+.images-section {
+    /* Style tramite section-card-dark, quindi non ha bisogno di dichiarazioni di background, shadow ecc. qui */
+}
+
+.images-section h3 { /* Titolo della sezione immagini (sul scuro) */
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: white; /* Bianco per il titolo */
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.images-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    margin-top: 15px;
+}
+
+.images-container img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.images-container img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Pulsanti di navigazione in basso */
+.navigation-buttons-area {
+    margin-top: 40px;
+    text-align: center;
+    width: 100%;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.navigation-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+.btn-navigation {
+    background: linear-gradient(45deg, #e63946, #c20000); /* Main red gradient */
+    color: white;
+    padding: 14px 30px;
+    font-size: 1.05rem;
+    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-navigation:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+}
+
+/* Footer (COERENTE con index.css) */
+.footer {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: auto;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .pizzeria-main-content {
+        max-width: 90%;
+        padding: 0 20px;
+        margin: 30px auto;
+    }
+    .section-card-dark, .reviews-section { /* Sezioni principali */
+        padding: 30px;
+    }
+    .pizzeria-title {
+        font-size: 2.8rem;
+    }
+    .pizzeria-info-details {
+        font-size: 1.1rem;
+    }
+    .section-card-dark h3, .reviews-section h3, .images-section h3 { /* Titoli delle sezioni principali */
+        font-size: 1.8rem;
+    }
+    .images-container {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+    }
+    .images-container img {
+        height: 120px;
+    }
+    .btn-navigation {
+        padding: 12px 25px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        gap: 15px;
+        padding: 0 20px;
+    }
+    .navbar-brand .logo {
+        font-size: 1.5rem;
+    }
+    .pizzeria-main-content {
+        margin-top: 25px;
+        gap: 25px;
+    }
+    .section-card-dark, .reviews-section { /* Sezioni principali */
+        padding: 25px;
+    }
+    .pizzeria-title {
+        font-size: 2.2rem;
+    }
+    .pizzeria-info-details {
+        font-size: 1rem;
+    }
+    .reviews-section li { /* Singole recensioni */
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+    .reviews-section strong {
+        font-size: 1.1rem;
+    }
+    .review-rating-stars { /* Stelle */
+        font-size: 1.1rem;
+    }
+    .reviews-section p {
+        font-size: 0.85rem;
+    }
+    .images-container {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        gap: 10px;
+    }
+    .images-container img {
+        height: 90px;
+    }
+    .navigation-buttons-container {
+        gap: 15px;
+    }
+    .btn-navigation {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pizzeria-main-content {
+        padding: 0 15px;
+        margin: 15px auto;
+        gap: 20px;
+    }
+    .section-card-dark, .reviews-section { /* Sezioni principali */
+        padding: 20px;
+    }
+    .pizzeria-title {
+        font-size: 1.8rem;
+    }
+    .pizzeria-info-details {
+        font-size: 0.9rem;
+    }
+    .section-card-dark h3, .reviews-section h3, .images-section h3 { /* Titoli delle sezioni principali */
+        font-size: 1.5rem;
+    }
+    .no-pizzeria-message {
+        font-size: 1.3rem;
+        padding: 20px;
+    }
+}
