@@ -1,0 +1,327 @@
+/* Import Google Fonts - Poppins for modern look */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* Slightly toned-down red gradient for professionalism */
+    background: linear-gradient(135deg, #cc2936 0%, #8b0000 50%, #3d0000 100%); /* Crimson to dark maroon */
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevents horizontal scroll */
+    display: flex;
+    flex-direction: column; /* For sticky footer */
+    color: white; /* Default text color */
+}
+
+/* Animated Background Elements - Subtle instead of dominant */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 100, 100, 0.15) 0%, transparent 50%), /* Reduced opacity */
+        radial-gradient(circle at 80% 20%, rgba(255, 150, 150, 0.15) 0%, transparent 50%), /* Reduced opacity */
+        radial-gradient(circle at 40% 40%, rgba(255, 50, 50, 0.15) 0%, transparent 50%); /* Reduced opacity */
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: -1; /* Ensures it stays behind content */
+    animation: backgroundShift 25s ease-in-out infinite; /* Slower animation */
+}
+
+@keyframes backgroundShift {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; } /* Less extreme opacity shift */
+}
+
+/* Navbar */
+.navbar {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    backdrop-filter: blur(20px); /* Frosted glass effect */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* More subtle border */
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Slightly stronger subtle shadow */
+    transition: all 0.3s ease;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px; /* Horizontal padding */
+    width: 100%;
+}
+
+.navbar-brand .logo {
+    font-size: 2rem;
+    font-weight: 800;
+    /* Red-themed gradient text for logo - slightly toned down */
+    background: linear-gradient(45deg, #e63946, #b00000); /* Red to darker red */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.navbar-brand .logo .btn-icon { /* Pizza icon in logo */
+    transition: transform 0.3s ease; /* Subtle hover animation */
+}
+.navbar-brand .logo .btn-icon:hover {
+    transform: rotate(10deg); /* Small rotation on hover */
+}
+
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #2c3e50; /* Dark text for contrast on white navbar */
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.user-actions {
+    display: flex;
+    gap: 15px; /* Spazio tra i bottoni Logout e Profilo */
+    margin: 0;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* General Button Styles */
+.btn {
+    padding: 10px 25px;
+    border-radius: 30px; /* Pill shape */
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Red-themed button gradients - slightly more muted */
+.btn-login {
+    background: linear-gradient(45deg, #ed6a5a, #f4a261); /* Salmon to orange */
+    color: white;
+    box-shadow: 0 4px 15px rgba(237, 106, 90, 0.3);
+}
+
+.btn-register {
+    background: linear-gradient(45deg, #e05b5b, #c02929); /* Muted red to darker red */
+    color: white;
+    box-shadow: 0 4px 15px rgba(224, 91, 91, 0.3);
+}
+
+.btn-logout {
+    background: linear-gradient(45deg, #e74c3c, #c0392b); /* Standard red gradient for logout */
+    color: white;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.btn-icon {
+    font-size: 1.2em; /* Adjust icon size relative to text */
+}
+
+/* Footer */
+.footer {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: auto;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* --- Stili specifici per la pagina di Registrazione --- */
+
+/* Navbar: Rende il pulsante di registrazione invisibile o lo disattiva nella pagina di registrazione */
+.navbar .auth-buttons .btn-register {
+    display: none;
+}
+
+/* Card del Form di Registrazione */
+.form-card-custom {
+    background: rgba(255, 255, 255, 0.1); /* Slightly transparent white for frosted glass effect */
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Soft white border */
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.form-card-custom .card-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, #fff, #ffe6e6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+}
+
+.register-subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Input Fields */
+.form-label-custom {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form-control-custom {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.form-control-custom::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-control-custom:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #e63946; /* Red border on focus */
+    box-shadow: 0 0 0 0.25rem rgba(230, 57, 70, 0.25);
+    color: white;
+}
+
+/* Register Button - Main action button remains primary red */
+.register-button-custom {
+    background: linear-gradient(45deg, #e63946, #c20000);
+    color: white;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+    transition: all 0.3s ease;
+}
+
+.register-button-custom:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(45deg, #c20000, #e63946);
+}
+
+/* Error Messages */
+.error-message {
+    color: white !important;
+    background-color: rgba(220, 53, 69, 0.3);
+    border: 1px solid rgba(220, 53, 69, 0.5);
+    font-weight: 500;
+    margin-top: 5px;
+    font-size: 0.875em;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-bottom: 1rem;
+}
+
+.error-message .bi {
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+/* Back to Home Link */
+.back-home-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.back-home-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 0 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .navbar-brand .logo {
+        font-size: 1.5rem;
+    }
+    .form-card-custom .card-title {
+        font-size: 2rem;
+    }
+    .register-subtitle {
+        font-size: 1.3rem;
+    }
+    .form-card-custom {
+        padding: 25px;
+    }
+    .register-button-custom {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-card-custom .card-title {
+        font-size: 1.8rem;
+    }
+    .register-subtitle {
+        font-size: 1.2rem;
+    }
+    .form-card-custom {
+        margin: 0 15px;
+    }
+}

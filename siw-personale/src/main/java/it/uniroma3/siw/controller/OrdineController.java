@@ -22,6 +22,7 @@ import it.uniroma3.siw.model.RigaOrdine;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.OrdineService;
 import it.uniroma3.siw.service.PizzeriaService;
+import it.uniroma3.siw.service.ProductService;
 import it.uniroma3.siw.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -31,12 +32,19 @@ public class OrdineController {
 	@Autowired PizzeriaService pizzeriaService;
 	@Autowired UserService userService;
 	@Autowired OrdineService ordineService;
+	@Autowired ProductService productService;
 
 	@GetMapping("/user/pizzerie/{pizzeriaId}/formNewOrdine")
 	public String showUserformNewOrdine(@PathVariable("pizzeriaId") Long pizzeriaId, Model model) {
 	  
 	    Pizzeria pizzeria = pizzeriaService.getPizzeriaById(pizzeriaId).get();	   
 	    model.addAttribute("pizzeria", pizzeria);
+	    
+	    //divisione del menu per tipo di prodotto come nel template del menu della pizzeria
+	    model.addAttribute("pizze", productService.getProductsByTipoAndPizzeria("Pizza", pizzeria));
+	    model.addAttribute("fritti", productService.getProductsByTipoAndPizzeria("Fritto", pizzeria));
+	    model.addAttribute("bevande", productService.getProductsByTipoAndPizzeria("Bevanda", pizzeria));
+
 	    
 	    return "user/formNewOrdine.html";
 	}
@@ -91,6 +99,12 @@ public class OrdineController {
 	    model.addAttribute("riepilogo", riepilogo);
 	    model.addAttribute("totale", totale);
 	    
+	    
+	    model.addAttribute("pizze", productService.getProductsByTipoAndPizzeria("Pizza", pizzeria));
+	    model.addAttribute("fritti", productService.getProductsByTipoAndPizzeria("Fritto", pizzeria));
+	    model.addAttribute("bevande", productService.getProductsByTipoAndPizzeria("Bevanda", pizzeria));
+	    
+	    
 	    return "user/formNewOrdine.html";
 	}
 
@@ -115,12 +129,19 @@ public class OrdineController {
 	        String orarioConsegnaStr = request.getParameter("orarioConsegna");
 
 	        if (indirizzoConsegna == null || indirizzoConsegna.isBlank() || orarioConsegnaStr == null || orarioConsegnaStr.isBlank()) {
-	            redirectAttributes.addFlashAttribute("error", "Inserisci indirizzo e orario di consegna");
+	            redirectAttributes.addFlashAttribute("error", "Indirizzo o orario di consegna mancanti o non validi");
 	            return "redirect:/user/pizzerie/" + pizzeriaId + "/formNewOrdine";
 	        }
 
 	        LocalTime orarioConsegna = LocalTime.parse(orarioConsegnaStr);
 	        
+	        
+	     // Verifica che l'orario per la consegna sia successivo a quello attuale
+	        LocalTime oraAttuale = LocalTime.now();
+	        if (!orarioConsegna.isAfter(oraAttuale)) {
+	            redirectAttributes.addFlashAttribute("error", "L'orario di consegna deve essere successivo all'orario attuale");
+	            return "redirect:/user/pizzerie/" + pizzeriaId + "/formNewOrdine";
+	        }
 	        
 	        
 	        // Crea il nuovo ordine
@@ -319,6 +340,11 @@ public class OrdineController {
 	    model.addAttribute("ordine", ordine);
 	    model.addAttribute("pizzeria", pizzeria);
 	    model.addAttribute("quantita", quantita);
+	    
+	    model.addAttribute("pizze", productService.getProductsByTipoAndPizzeria("Pizza", pizzeria));
+	    model.addAttribute("fritti", productService.getProductsByTipoAndPizzeria("Fritto", pizzeria));
+	    model.addAttribute("bevande", productService.getProductsByTipoAndPizzeria("Bevanda", pizzeria));
+
 
 	    return "user/formEditOrdine.html";
 	}
@@ -379,6 +405,11 @@ public class OrdineController {
 	    String orarioConsegna = request.getParameter("orarioConsegna");
 	    model.addAttribute("indirizzoConsegna", indirizzoConsegna);
 	    model.addAttribute("orarioConsegna", orarioConsegna);
+	    
+	    
+	    model.addAttribute("pizze", productService.getProductsByTipoAndPizzeria("Pizza", pizzeria));
+	    model.addAttribute("fritti", productService.getProductsByTipoAndPizzeria("Fritto", pizzeria));
+	    model.addAttribute("bevande", productService.getProductsByTipoAndPizzeria("Bevanda", pizzeria));
 
 	    return "user/formEditOrdine.html";
 	}
@@ -404,12 +435,20 @@ public class OrdineController {
 	        String orarioConsegnaStr = request.getParameter("orarioConsegna");
 
 	        if (indirizzoConsegna == null || indirizzoConsegna.isBlank() || orarioConsegnaStr == null || orarioConsegnaStr.isBlank()) {
-	            redirectAttributes.addFlashAttribute("error", "Inserisci indirizzo e orario di consegna");
+	            redirectAttributes.addFlashAttribute("error", "Indirizzo o orario di consegna mancanti o non validi");
 	            return "redirect:/user/ordini/" + ordineId + "/edit";
 	        }
 
 	        LocalTime orarioConsegna = LocalTime.parse(orarioConsegnaStr);
 
+	        // Controllo sull'orario di consegna (deve essere successivo all'ora in cui viene effettuato)
+	        LocalTime oraAttuale = LocalTime.now();
+	        if (!orarioConsegna.isAfter(oraAttuale)) {
+	            redirectAttributes.addFlashAttribute("error", "L'orario di consegna deve essere successivo all'orario attuale");
+	            return "redirect:/user/ordini/" + ordineId + "/edit";
+	        }
+	        
+	        
 	        boolean hasProducts = false;
 	        List<RigaOrdine> righeAggiornate = new ArrayList<>();
 

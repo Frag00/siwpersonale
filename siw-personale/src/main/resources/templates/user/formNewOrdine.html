@@ -4,7 +4,7 @@
 	 <title>New Review</title>
  </head>
  <body>	
-	<h1><strong>SiwPizzeria</strong></h1>
+	<h1><strong>SliceVerse</strong></h1>
 	<div th:if="${user}">
 				<p th:text="${user.nome + ' ' + user.cognome}"></p>
 		  		<p><a href="/logout">Logout</a></p>
@@ -19,28 +19,50 @@
         
         <h3>Menu</h3>
         
-        <div th:each="prodotto : ${pizzeria.menu}">
-            <div>
-                <h4 th:text="${prodotto.nome}">Nome Prodotto</h4>
-                <p th:text="${prodotto.descrizione}">Descrizione</p>
-                <p>Tipo: <span th:text="${prodotto.tipo}">Tipo</span></p>
-                <p>Prezzo: <span th:text="${prodotto.prezzo}">0.00</span> €</p>
-                
-                <div th:if="${prodotto.immagine != null}">
-                    <img th:src="${prodotto.immagine.nome}" 
-                         alt="Immagine prodotto" width="100" height="100">
-                </div>
-                
-                <label th:for="'quantita_' + ${prodotto.id}">Quantità:</label>
-                <input type="number" 
-                       th:id="'quantita_' + ${prodotto.id}"
-                       th:name="'quantita_' + ${prodotto.id}"
-                       th:value="${quantita != null ? quantita.get(prodotto.id) : 0}"
-                       min="0" 
-                       max="20">
-                <hr>
-            </div>
-        </div>
+		<div th:if="${!pizze.isEmpty()}">
+			<h3>Pizze</h3>
+			<div th:each="p : ${pizze}">
+			    <h4 th:text="${p.nome}">Nome</h4>
+			    <p th:text="${p.descrizione}"></p>
+			    <p>Prezzo: <span th:text="${p.prezzo}"></span> €</p>
+			    <div th:if="${p.immagine != null}">
+			        <img th:src="${p.immagine.nome}" alt="Immagine prodotto" width="100" height="100">
+			    </div>
+			    <label th:for="'quantita_' + ${p.id}">Quantità:</label>
+			    <input type="number" th:id="'quantita_' + ${p.id}" th:name="'quantita_' + ${p.id}" min="0" max="20">
+			    <hr>
+			</div>
+		</div>
+		
+		<div th:if="${!fritti.isEmpty()}">
+			<h3>Fritti</h3>
+			<div th:each="f : ${fritti}">
+			    <h4 th:text="${f.nome}">Nome</h4>
+			    <p th:text="${f.descrizione}"></p>
+			    <p>Prezzo: <span th:text="${f.prezzo}"></span> €</p>
+			    <div th:if="${f.immagine != null}">
+			        <img th:src="${f.immagine.nome}" alt="Immagine prodotto" width="100" height="100">
+			    </div>
+			    <label th:for="'quantita_' + ${f.id}">Quantità:</label>
+			    <input type="number" th:id="'quantita_' + ${f.id}" th:name="'quantita_' + ${f.id}" min="0" max="20">
+			    <hr>
+			</div>
+		</div>
+		
+		<div th:if="${!bevande.isEmpty()}">
+			<h3>Bevande</h3>
+			<div th:each="b : ${bevande}">
+			    <h4 th:text="${b.nome}">Nome</h4>
+			    <p th:text="${b.descrizione}"></p>
+			    <p>Prezzo: <span th:text="${b.prezzo}"></span> €</p>
+			    <div th:if="${b.immagine != null}">
+			        <img th:src="${b.immagine.nome}" alt="Immagine prodotto" width="100" height="100">
+			    </div>
+			    <label th:for="'quantita_' + ${b.id}">Quantità:</label>
+			    <input type="number" th:id="'quantita_' + ${b.id}" th:name="'quantita_' + ${b.id}" min="0" max="20">
+			    <hr>
+			</div>
+		</div>
         
         <button type="submit">Aggiorna Riepilogo</button>
     </form>

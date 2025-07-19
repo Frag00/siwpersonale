@@ -423,4 +423,61 @@ public class PizzeriaController {
 		model.addAttribute("pizze", productService.getProductsByTipoAndPizzeria("Pizza", pizzeriaService.getPizzeriaById(id).get()));
 		return "user/menu.html";
 	}
+	
+	/* gestione della ricerca delle pizzerie */
+	
+	// utente qualsiasi
+	@GetMapping("/pizzerie/search")
+	public String searchPizzerie(@RequestParam("ricerca") String ricerca, Model model) {
+	    
+		
+	    if (ricerca != null && !ricerca.isEmpty()) {
+	    	// stringa di ricerca non vuota
+	        model.addAttribute("pizzerie", pizzeriaService.searchPizzerie(ricerca));
+	        model.addAttribute("ricerca", ricerca);
+	    } else {
+	        // Se la stringa di ricerca è vuota allora mostra tutte le pizzerie
+	       
+	        model.addAttribute("pizzerie", pizzeriaService.getAllPizzerie());
+	    }
+	    
+	    return "pizzerie.html";
+	}
+	
+	//utenti registrati 
+	@GetMapping("/user/pizzerie/search")
+	public String userSearchPizzerie(@RequestParam("ricerca") String ricerca, Model model) {
+	    
+		
+	    if (ricerca != null && !ricerca.isEmpty()) {
+	    	// stringa di ricerca non vuota
+	        model.addAttribute("pizzerie", pizzeriaService.searchPizzerie(ricerca));
+	        model.addAttribute("ricerca", ricerca);
+	    } else {
+	        // Se la stringa di ricerca è vuota allora mostra tutte le pizzerie
+	       
+	        model.addAttribute("pizzerie", pizzeriaService.getAllPizzerie());
+	    }
+	    
+	    return "user/pizzerie.html";
+	}
+	
+	//admin
+	@GetMapping("/admin/pizzerie/search")
+	public String adminSearchPizzerie(@RequestParam("ricerca") String ricerca, Model model) {
+	    
+		
+	    if (ricerca != null && !ricerca.isEmpty()) {
+	    	// stringa di ricerca non vuota
+	        model.addAttribute("pizzerie", pizzeriaService.searchPizzerie(ricerca));
+	        model.addAttribute("ricerca", ricerca);
+	    } else {
+	        // Se la stringa di ricerca è vuota allora mostra tutte le pizzerie
+	       
+	        model.addAttribute("pizzerie", pizzeriaService.getAllPizzerie());
+	    }
+	    
+	    return "admin/pizzerie.html";
+	}
+	
 }

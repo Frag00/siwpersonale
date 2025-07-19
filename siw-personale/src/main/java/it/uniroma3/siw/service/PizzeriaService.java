@@ -31,4 +31,8 @@ public class PizzeriaService {
 	public void deletePizzeria(Pizzeria p) {	
 		pizzeriaRepository.delete(p);
 	}
+	
+	public Iterable<Pizzeria> searchPizzerie(String ricerca) {
+	    return pizzeriaRepository.findByNomeContainingIgnoreCaseOrCittaContainingIgnoreCase(ricerca, ricerca);
+	}
 }

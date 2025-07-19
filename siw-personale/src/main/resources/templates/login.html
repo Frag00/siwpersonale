@@ -1,33 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
-    <title>SiwPizzeria</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-	<div th:if="${user}">
-				<p th:text="${user.nome + ' ' + user.cognome}"></p>
-		  		<p><a href="/logout">Logout</a></p>
-			</div>
-			<p th:unless="${user}">
-				<span><a href="/login">Accedi</a></span>
-				<span><a href="/register">Registrati</a></span></p>	
-      <h1><strong>SiwPizzeria</strong></h1>
-	  <div th:if="${param.registered}" style="color: green; margin-bottom: 10px;">
-	      Registrazione completata con successo! Ora puoi effettuare il login.
-	  </div>
-	  <h2>Hai già un account? Accedi</h2>
-	  <form th:action="@{/login}" method="post">
-		<div>
-			<span>Username : </span>
-			<span><input type="text" required name="username" autocomplete="off"></span>
-		</div>
-		<div>
-			<span>Password : </span>
-			<span><input type="password" required name="pwd" autocomplete="off"></span>
-		</div>
-		<span><button type="submit">Login</button></span>
-	  </form>
-	  <p><a th:href="@{/}">Torna alla Homepage</a></p>
+    <meta charset="UTF-8" />
+    <title>Accedi a SliceVerse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/stylesLogin.css" /> </head>
+  <body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar">
+      <div class="navbar-container">
+        <div class="navbar-brand">
+            <h1 class="logo"><i class="bi bi-pizza btn-icon"></i> <strong>SliceVerse</strong></h1>
+        </div>
+        
+        <div class="navbar-nav">
+            <div th:if="${user}" class="user-info d-none"> 
+                <p class="user-name">Benvenuto, <span th:text="${user.nome + ' ' + user.cognome}"></span></p>
+                <div class="user-actions">
+                    <a href="/logout" class="btn btn-logout">
+                        <i class="bi bi-box-arrow-right btn-icon"></i> Logout
+                    </a>
+                </div>
+            </div>
+            
+            <div th:unless="${user}" class="auth-buttons">
+                <a href="/register" class="btn btn-register">
+                    <i class="bi bi-person-plus btn-icon"></i> Registrati
+                </a>
+            </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
+                    <div class="card p-4 shadow-lg form-card-custom">
+                        <div class="card-body">
+                            <h1 class="card-title text-center mb-4 hero-title">
+                                <strong>SliceVerse</strong>
+                            </h1>
+                            
+                            <div th:if="${param.registered}" class="alert alert-success text-center success-message" role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i>Registrazione completata con successo! Ora puoi effettuare il login.
+                            </div>
+
+                            <h2 class="card-subtitle mb-4 text-center login-subtitle">Hai già un account? Accedi</h2>
+                            
+                            <form th:action="@{/login}" method="post">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label form-label-custom">Username :</label>
+                                    <input type="text" class="form-control form-control-custom" id="username" required name="username" autocomplete="off">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="pwd" class="form-label form-label-custom">Password :</label>
+                                    <input type="password" class="form-control form-control-custom" id="pwd" required name="pwd" autocomplete="off">
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg login-button-custom">
+                                        <i class="bi bi-box-arrow-in-right btn-icon me-2"></i>Login
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <div class="text-center mt-4">
+                                <p class="mb-0">
+                                    <a th:href="@{/}" class="text-white-50 back-home-link">
+                                        <i class="bi bi-arrow-left-circle-fill me-2"></i>Torna alla Homepage
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer mt-auto">
+      <p>&copy; SliceVerse - Esplora, ordina, assapora</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
-</html> 
+</html>
