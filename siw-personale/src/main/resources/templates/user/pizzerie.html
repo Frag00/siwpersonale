@@ -18,7 +18,7 @@
         
         <div class="navbar-nav">
             <div th:if="${user}" class="user-info"> 
-                <p class="user-name">Benvenuto, <span th:text="${user.nome + ' ' + user.cognome}"></span></p>
+                <p class="user-name"><span th:text="${user.nome + ' ' + user.cognome}"></span></p>
                 <div class="user-actions">
                     <a href="/logout" class="btn btn-logout">
                         <i class="bi bi-box-arrow-right btn-icon"></i> Logout

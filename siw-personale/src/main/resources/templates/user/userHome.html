@@ -16,7 +16,7 @@
         
         <div class="navbar-nav">
             <div th:if="${user}" class="user-info">
-                <p class="user-name">Ciao, <span th:text="${user.nome + ' ' + user.cognome}"></span>!</p>
+                <p class="user-name"><span th:text="${user.nome + ' ' + user.cognome}"></span></p>
                 <div class="user-actions">
                     <a th:href="@{/user/profile}" class="btn btn-profile">
                         <i class="bi bi-person-circle btn-icon"></i> Profilo

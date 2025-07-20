@@ -1,77 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
 		<title>Menu della Pizzeria</title>
+		<link rel="stylesheet" th:href="@{/css/admin/stylesMenu.css}">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 	</head>
-	<body> 
-		<h1><strong>SliceVerse</strong></h1>
-		<div th:if="${user}">
-					<p th:text="${user.nome + ' ' + user.cognome}"></p>
-			  		<p><a href="/logout">Logout</a></p>
-					<p><a th:href="@{/admin/profile}">Profilo</a></p>
+	<body>
+		<nav class="navbar">
+			<div class="navbar-container">
+				<a class="navbar-brand">
+				    <h1 class="logo">SliceVerse</h1>
+				</a>
+				<div class="navbar-nav">
+					<div th:if="${user}" class="user-info">
+						<p class="user-name" th:text="${user.nome + ' ' + user.cognome}"></p>
+						<div class="user-actions">
+							<p><a href="/logout" class="btn btn-logout"><i class="bi bi-box-arrow-right"></i> Logout</a></p>
+							<p><a th:href="@{/admin/profile}" class="btn btn-profile"><i class="bi bi-person-circle"></i> Profilo</a></p>
+						</div>
+					</div>
+					<div th:unless="${user}" class="auth-buttons">
+						<span><a href="/login" class="btn btn-login"><i class="bi bi-box-arrow-in-right"></i> Accedi</a></span>
+						<span><a href="/register" class="btn btn-register"><i class="bi bi-person-plus"></i> Registrati</a></span>
+					</div>
 				</div>
-				<p th:unless="${user}">
-					<span><a href="/login">Accedi</a></span>
-					<span><a href="/register">Registrati</a></span></p>	
-		<h1><span>Menu della pizzeria</span><span th:text="' ' + ${pizzeria.nome}"></span></h1>			
-		<div th:if="${!pizzeria.menu.isEmpty()}">
-			<div><p th:if="${!pizze.isEmpty()}">Pizze : </p>
-			<ul>
-				<li th:each="p : ${pizze}">
-					<span th:utext="${p.nome + '  ' + p.prezzo + '€' + '<br/>' + p.descrizione}">Pizza</span>
-					<div th:if="${p.immagine}">
-						<div>
-							<img th:src="${p.immagine.nome}" 
-								 alt="Immagine pizza" 
-						         style="max-width: 200px; max-height: 200px; margin: 5px;" />
-			    		</div>
-					</div> 
-					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${p.id} + '/remove'}">Elimina</a></p>
-					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${p.id} + '/formEditProduct'}">Modifica</a></p>
-				</li>				
-			</ul>
-			</div>	
-			
-			<div><p th:if="${!fritti.isEmpty()}">Fritti : </p>
-			<ul>
-				<li th:each="f : ${fritti}">
-					<span th:utext="${f.nome + '  ' + f.prezzo + '€' + '<br/>' + f.descrizione}">Fritto</span>
-					<div th:if="${f.immagine}">
-						<div>
-							<img th:src="${f.immagine.nome}" 
-								 alt="Immagine fritto" 
-						         style="max-width: 200px; max-height: 200px; margin: 5px;" />
-			    		</div>
-					</div> 
-					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${f.id} + '/remove'}">Elimina</a></p>
-					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${f.id} + '/formEditProduct'}">Modifica</a></p>
-				</li>				
-			</ul>
-			</div>	
-						
-			<div><p th:if="${!bevande.isEmpty()}">Bevande : </p>
-			<ul>
-				<li th:each="b : ${bevande}">
-					<span th:utext="${b.nome + '  ' + b.prezzo + '€' +'<br/>' + b.descrizione}">Bevanda</span>
-					<div th:if="${b.immagine}">
-						<div>
-							<img th:src="${b.immagine.nome}" 
-								 alt="Immagine pizza" 
-						         style="max-width: 200px; max-height: 200px; margin: 5px;" />
-			    		</div>
-					</div> 
-					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${b.id} + '/remove'}">Elimina</a></p>
-					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${b.id} + '/formEditProduct'}">Modifica</a></p>
-				</li>				
-			</ul>
-			</div>	
-				
-		</div>	
-		<div th:unless="${!pizzeria.menu.isEmpty()}">Il menu è vuoto</div>
-		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/formNewProduct'}">Aggiungi un prodotto al menu</a></p>
-		<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id}}">Torna alla pizzeria</a></p>
-		<p><a href="/admin/pizzerie">Torna alla lista di tutte le pizzerie</a></p>
-		<p><a href="/admin">Torna alla home</a></p>
-	</body>
+			</div>
+		</nav>
+		<main class="menu-main-content">
+			<header class="menu-header">
+				<h1><span>Menu della pizzeria</span><span th:text="' ' + ${pizzeria.nome}"></span></h1>
+			</header>
+
+			<div class="action-buttons-container mb-4">
+				<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/formNewProduct'}" class="btn btn-primary action-btn"><i class="bi bi-plus-circle"></i> Aggiungi un prodotto al menu</a></p>
+			</div>
+
+			<div th:if="${!pizzeria.menu.isEmpty()}" class="menu-sections-wrapper">
+
+				<div th:if="${!pizze.isEmpty()}" class="menu-category-card">
+					<h2>Pizze : </h2>
+					<ul class="product-grid"> <li th:each="p : ${pizze}" class="product-item"> <div class="product-info"> <div class="product-name-price">
+									<span class="product-name" th:text="${p.nome}">Pizza</span>
+									<span class="product-price" th:text="${p.prezzo + '€'}">Prezzo</span>
+								</div>
+								<p class="product-description" th:utext="${p.descrizione}"></p>
+							</div>
+							<div th:if="${p.immagine}" class="product-image-container"> <div>
+									<img th:src="${p.immagine.nome}"
+										 alt="Immagine pizza"
+										 class="product-image" /> </div>
+							</div>
+							<div class="product-actions mt-3"> <p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${p.id} + '/remove'}" class="btn btn-danger btn-sm review-action-btn"><i class="bi bi-trash"></i> Elimina</a></p>
+								<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${p.id} + '/formEditProduct'}" class="btn btn-warning btn-sm review-action-btn"><i class="bi bi-pencil-square"></i> Modifica</a></p>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div th:if="${!fritti.isEmpty()}" class="menu-category-card">
+					<h2>Fritti : </h2>
+					<ul class="product-grid">
+						<li th:each="f : ${fritti}" class="product-item">
+							<div class="product-info">
+								<div class="product-name-price">
+									<span class="product-name" th:text="${f.nome}">Fritto</span>
+									<span class="product-price" th:text="${f.prezzo + '€'}">Prezzo</span>
+								</div>
+								<p class="product-description" th:utext="${f.descrizione}"></p>
+							</div>
+							<div th:if="${f.immagine}" class="product-image-container">
+								<div>
+									<img th:src="${f.immagine.nome}"
+										 alt="Immagine fritto"
+										 class="product-image" />
+								</div>
+							</div>
+							<div class="product-actions mt-3">
+								<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${f.id} + '/remove'}" class="btn btn-danger btn-sm review-action-btn"><i class="bi bi-trash"></i> Elimina</a></p>
+								<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${f.id} + '/formEditProduct'}" class="btn btn-warning btn-sm review-action-btn"><i class="bi bi-pencil-square"></i> Modifica</a></p>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div th:if="${!bevande.isEmpty()}" class="menu-category-card">
+					<h2>Bevande : </h2>
+					<ul class="product-grid">
+						<li th:each="b : ${bevande}" class="product-item">
+							<div class="product-info">
+								<div class="product-name-price">
+									<span class="product-name" th:text="${b.nome}">Bevanda</span>
+									<span class="product-price" th:text="${b.prezzo + '€'}">Prezzo</span>
+								</div>
+								<p class="product-description" th:utext="${b.descrizione}"></p>
+							</div>
+							<div th:if="${b.immagine}" class="product-image-container">
+								<div>
+									<img th:src="${b.immagine.nome}"
+										 alt="Immagine pizza"
+										 class="product-image" />
+								</div>
+							</div>
+							<div class="product-actions mt-3">
+								<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${b.id} + '/remove'}" class="btn btn-danger btn-sm review-action-btn"><i class="bi bi-trash"></i> Elimina</a></p>
+								<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id} + '/menu/' + ${b.id} + '/formEditProduct'}" class="btn btn-warning btn-sm review-action-btn"><i class="bi bi-pencil-square"></i> Modifica</a></p>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+			<div th:unless="${!pizzeria.menu.isEmpty()}" class="empty-menu-message">
+				<i class="bi bi-info-circle-fill"></i> Il menu è vuoto
+			</div>
+
+			<div class="navigation-buttons-area">
+				<div class="navigation-buttons-container">
+					<p><a th:href="@{'/admin/pizzerie/' + ${pizzeria.id}}" class="btn btn-navigation"><i class="bi bi-arrow-left-circle"></i> Torna alla pizzeria</a></p>
+					<p><a href="/admin/pizzerie" class="btn btn-navigation"><i class="bi bi-list-stars"></i> Torna alla lista di tutte le pizzerie</a></p>
+					<p><a href="/admin" class="btn btn-navigation"><i class="bi bi-house-door"></i> Torna alla home</a></p>
+				</div>
+			</div>
+		</main>
+
+		<footer class="footer">
+			<p>&copy; 2025 SliceVerse. Tutti i diritti riservati.</p>
+		</footer>
+		</body>
 </html>

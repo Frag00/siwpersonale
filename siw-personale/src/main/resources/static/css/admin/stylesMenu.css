@@ -1,0 +1,294 @@
+/* Importa Bootstrap CSS (se ancora necessario) */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* --- Stili Base (Ripetuti per Coerenza) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #cc2936 0%, #8b0000 50%, #3d0000 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 100, 100, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 150, 150, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 50, 50, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+    animation: backgroundShift 25s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* Navbar (assicurati che sia la stessa usata nelle altre pagine) */
+.navbar {
+    position: relative; top: 0; left: 0; right: 0; width: 100%; z-index: 1000;
+    background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); transition: all 0.3s ease;
+}
+.navbar-container {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1200px; margin: 0 auto; padding: 0 30px; width: 100%;
+}
+.navbar-brand .logo {
+    font-size: 2rem; font-weight: 800;
+    background: linear-gradient(45deg, #e63946, #b00000);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin: 0; text-decoration: none;
+}
+.navbar-nav { display: flex; align-items: center; gap: 20px; }
+.user-info { display: flex; align-items: center; gap: 20px; }
+.user-name { font-weight: 600; color: #2c3e50; margin: 0; font-size: 1.1rem; }
+.user-actions { display: flex; gap: 15px; margin: 0; }
+.auth-buttons { display: flex; gap: 15px; }
+
+/* Bottoni (coerenti con le altre pagine) */
+.btn {
+    padding: 10px 25px; border-radius: 30px; text-decoration: none;
+    font-weight: 600; transition: all 0.3s ease; display: inline-flex;
+    align-items: center; gap: 8px; border: none; cursor: pointer;
+    font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.btn-login { background: linear-gradient(45deg, #ed6a5a, #f4a261); color: white; box-shadow: 0 4px 15px rgba(237, 106, 90, 0.3); }
+.btn-register { background: linear-gradient(45deg, #e05b5b, #c02929); color: white; box-shadow: 0 4px 15px rgba(224, 91, 91, 0.3); }
+.btn-logout { background: linear-gradient(45deg, #e74c3c, #c0392b); color: white; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3); }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
+
+
+/* --- Stili Specifici del Menu --- */
+.menu-main-content {
+    flex-grow: 1;
+    max-width: 1000px; /* Aumentato leggermente per dare più spazio */
+    margin: 40px auto;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.menu-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.menu-header h1 {
+    font-size: 3.8rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(45deg, #ffffff, #ffeded);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    line-height: 1.1;
+}
+
+/* Contenitore per le sezioni del menu */
+.menu-sections-wrapper { /* Nuova classe per il contenitore delle sezioni */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Spazio tra le sezioni (pizze, fritti, bevande) */
+}
+
+/* Stile per i riquadri delle sezioni (Pizze, Fritti, Bevande) */
+.menu-category-card { /* Classe rinominata per chiarezza, prima era .menu-section-card */
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.menu-category-card h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+/* --- Stili per le liste di prodotti (Punti Chiave del Layout) --- */
+.menu-category-card ul.product-grid { /* Aggiunto product-grid per maggiore specificità */
+    list-style: none;
+    padding: 0;
+    display: grid; /* ABILITA LA GRIGLIA */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Colonne flessibili */
+    gap: 30px; /* Spazio tra gli elementi della griglia */
+}
+
+.menu-category-card ul.product-grid li.product-item { /* Aggiunto product-item per maggiore specificità */
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column; /* Contenuto in colonna dentro la card del prodotto */
+    gap: 10px;
+    height: 100%; /* Assicura allineamento verticale nella griglia */
+    justify-content: space-between; /* Spinge immagine in basso se c'è spazio */
+}
+
+.menu-category-card ul.product-grid li.product-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.product-info {
+    flex-grow: 1;
+}
+
+.product-name-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.product-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffcccc;
+    line-height: 1.2;
+}
+
+.product-price {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #ffd700;
+    white-space: nowrap;
+}
+
+.product-description {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+    margin-top: 5px;
+}
+
+.product-image-container {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.product-image {
+    max-width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.product-image:hover {
+    transform: scale(1.02);
+}
+
+/* Messaggi di stato */
+.empty-menu-message {
+    background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px);
+    border-radius: 15px; padding: 30px; text-align: center;
+    color: white; font-size: 1.8rem; font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); max-width: 600px;
+    width: 100%; margin: 40px auto;
+}
+
+/* Pulsanti di navigazione */
+.navigation-buttons-area {
+    margin-top: 40px; text-align: center; width: 100%;
+    padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.navigation-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
+.btn-navigation {
+    background: linear-gradient(45deg, #e63946, #c20000); color: white;
+    padding: 14px 30px; font-size: 1.05rem; box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+    border-radius: 30px; text-decoration: none; font-weight: 600;
+    transition: all 0.3s ease; display: inline-flex; align-items: center;
+    gap: 8px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.btn-navigation:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); text-decoration: none; }
+
+/* Footer (coerente con le altre pagine) */
+.footer {
+    background: rgba(0, 0, 0, 0.8); color: white; text-align: center;
+    padding: 30px 0; margin-top: auto; width: 100%; backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+.footer p { margin: 0; font-size: 1.1rem; font-weight: 500; }
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    .menu-main-content { max-width: 90%; padding: 0 20px; margin: 30px auto; }
+    .menu-header h1 { font-size: 3rem; }
+    .menu-category-card { padding: 25px; }
+    .menu-category-card h2 { font-size: 2rem; }
+    .menu-category-card ul.product-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+    .product-name { font-size: 1.3rem; }
+    .product-price { font-size: 1.1rem; }
+    .product-description { font-size: 0.9rem; }
+    .product-image { height: 120px; }
+    .btn-navigation { padding: 12px 25px; font-size: 0.95rem; }
+}
+
+@media (max-width: 768px) {
+    .navbar-container { flex-direction: column; gap: 15px; padding: 0 20px; }
+    .navbar-brand .logo { font-size: 1.5rem; }
+    .menu-main-content { margin-top: 25px; gap: 25px; }
+    .menu-header h1 { font-size: 2.5rem; }
+    .menu-category-card { padding: 20px; }
+    .menu-category-card h2 { font-size: 1.8rem; }
+    .menu-category-card ul.product-grid { grid-template-columns: 1fr; /* Una colonna su schermi più piccoli */ gap: 20px; }
+    .product-item { padding: 15px; }
+    .product-name { font-size: 1.2rem; }
+    .product-price { font-size: 1rem; }
+    .product-image { height: 100px; }
+    .empty-menu-message { font-size: 1.5rem; padding: 20px; }
+    .navigation-buttons-container { gap: 15px; }
+    .btn-navigation { padding: 10px 20px; font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+    .menu-main-content { padding: 0 15px; margin: 15px auto; }
+    .menu-header h1 { font-size: 1.8rem; }
+    .menu-category-card h2 { font-size: 1.5rem; }
+    .product-name { font-size: 1.1rem; }
+    .product-price { font-size: 0.9rem; }
+    .product-description { font-size: 0.85rem; }
+}
