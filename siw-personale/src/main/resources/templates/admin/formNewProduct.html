@@ -1,52 +1,108 @@
 <!DOCTYPE html>
-<html>
- <head> 
-	 <title>New Product</title>
- </head>
- <body>	
-	<h1><strong>SliceVerse</strong></h1>
- <div th:if="${user}">
-			<p th:text="${user.nome + ' ' + user.cognome}"></p>
-	  		<p><a href="/logout">Logout</a></p>
-	  		<p><a th:href="@{/admin/profile}">Profilo</a></p>
-		</div>
-	 <h1>Aggiungi un Prodotto al menu della Pizzeria</h1>
-	 <form th:action="@{/admin/pizzerie/{id}/addProduct(id=${pizzeria.id})}" method="POST" th:object="${prodotto}" enctype="multipart/form-data">
-		<div th:if="${errEsiste}">
-		 	<p th:text="${errEsiste}"></p>
-		</div>
-		<div>
-		 Nome: <span><input type="text" th:field="${prodotto.nome}"/></span>
-		 <span th:if="${#fields.hasErrors('nome')}" th:errors="${prodotto.nome}"></span>
-		 </div>
-		 <div>
-		 Tipo (Pizza,Fritto,Bevanda) : <span><input type="text" th:field="${prodotto.tipo}"/></span>
-		 <span th:if="${#fields.hasErrors('tipo')}" th:errors="${prodotto.tipo}"></span>
-		 </div>
-		 <div>
-		 Descrizione : <span><input type="text" th:field="${prodotto.descrizione}"/></span>
-		 <span th:if="${#fields.hasErrors('descrizione')}" th:errors="${prodotto.descrizione}"></span>
-		 </div>		 
-		 <div>
-		 Prezzo : <span><input type="number" step="0.01" min="0" th:field="${prodotto.prezzo}"/></span>
-		 <span th:if="${#fields.hasErrors('prezzo')}" th:errors="${prodotto.prezzo}"></span>
-		 </div>
-		 <div>
-		 	            <label for="imageFile">Immagine</label>
-		 	            <input type="file" 
-		 	                   name="imageFile" 
-		 	                   id="imageFile"  
-		 	                   accept="image/*" 
-		 	                   required/>
-		 </div>
-		 <div>
-		 <span><button type="submit">Aggiungi</button></span>
-		 </div>
-		 
-	 </form>
-	 <div th:if="${errIMG}" th:text="${errIMG}"></div>
-	 <a th:href="@{'/admin/pizzerie/' + ${pizzeria.id}}">Torna alla Pizzeria</a>
-	 <a href="/admin/pizzerie">Torna alla lista di tutte le Pizzerie</a>
-	  <p><a href="/admin">Torna alla home</a></p>
- </body>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>SliceVerse - Nuovo Prodotto</title>
+
+  <link rel="stylesheet" href="/css/admin/stylesFormNewProduct.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+<body>
+  <!-- Navbar SliceVerse -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1 class="logo"><i class="bi bi-pizza btn-icon"></i> <strong>SliceVerse</strong></h1>
+      </div>
+      <div class="navbar-nav">
+        <div th:if="${user}" class="user-info">
+          <p class="user-name"><span th:text="${user.nome + ' ' + user.cognome}"></span></p>
+          <div class="user-actions">
+            <a th:href="@{/admin/profile}" class="btn btn-profile">
+              <i class="bi bi-person-circle btn-icon"></i> Profilo
+            </a>
+            <a href="/logout" class="btn btn-logout">
+              <i class="bi bi-box-arrow-right btn-icon"></i> Logout
+            </a>
+          </div>
+        </div>
+        <div th:unless="${user}" class="auth-buttons">
+          <a href="/login" class="btn btn-login">
+            <i class="bi bi-box-arrow-in-right btn-icon"></i> Accedi
+          </a>
+          <a href="/register" class="btn btn-register">
+            <i class="bi bi-person-plus btn-icon"></i> Registrati
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenuto -->
+  <main class="hero-section">
+    <div class="hero-content form-wrapper">
+      <h1 class="hero-title">Aggiungi un Prodotto al Menu</h1>
+
+      <form th:action="@{/admin/pizzerie/{id}/addProduct(id=${pizzeria.id})}" method="POST" th:object="${prodotto}" enctype="multipart/form-data" class="form-product">
+        <div th:if="${errEsiste}" class="alert alert-danger">
+          <p th:text="${errEsiste}"></p>
+        </div>
+
+        <div class="form-group">
+          <label>Nome:</label>
+          <input type="text" th:field="${prodotto.nome}" />
+          <span class="field-error" th:if="${#fields.hasErrors('nome')}" th:errors="${prodotto.nome}"></span>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo (Pizza, Fritto, Bevanda):</label>
+          <input type="text" th:field="${prodotto.tipo}" />
+          <span class="field-error" th:if="${#fields.hasErrors('tipo')}" th:errors="${prodotto.tipo}"></span>
+        </div>
+
+        <div class="form-group">
+          <label>Descrizione:</label>
+          <input type="text" th:field="${prodotto.descrizione}" />
+          <span class="field-error" th:if="${#fields.hasErrors('descrizione')}" th:errors="${prodotto.descrizione}"></span>
+        </div>
+
+        <div class="form-group">
+          <label>Prezzo:</label>
+          <input type="number" step="0.01" min="0" th:field="${prodotto.prezzo}" />
+          <span class="field-error" th:if="${#fields.hasErrors('prezzo')}" th:errors="${prodotto.prezzo}"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="imageFile">Immagine:</label>
+          <input type="file" name="imageFile" id="imageFile" accept="image/*" required />
+        </div>
+
+        <div class="form-buttons">
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-plus-circle btn-icon"></i> Aggiungi
+          </button>
+        </div>
+      </form>
+
+      <div th:if="${errIMG}" class="alert alert-danger" th:text="${errIMG}"></div>
+
+      <div class="hero-buttons">
+        <a th:href="@{'/admin/pizzerie/' + ${pizzeria.id}}" class="btn btn-secondary">
+          <i class="bi bi-arrow-left btn-icon"></i> Torna alla Pizzeria
+        </a>
+        <a href="/admin/pizzerie" class="btn btn-secondary">
+          <i class="bi bi-list btn-icon"></i> Torna alla lista Pizzerie
+        </a>
+        <a href="/admin" class="btn btn-secondary">
+          <i class="bi bi-house btn-icon"></i> Torna alla Home
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer SliceVerse -->
+  <footer class="footer">
+    <p>&copy; SliceVerse - Esplora, ordina, assapora</p>
+  </footer>
+</body>
 </html>

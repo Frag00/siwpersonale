@@ -1,38 +1,100 @@
 <!DOCTYPE html>
-<html>
- <head>
-	 <title>New Review</title>
- </head>
- <body>	
-	<h1><strong>SliceVerse</strong></h1>
-	<div th:if="${user}">
-				<p th:text="${user.nome + ' ' + user.cognome}"></p>
-		  		<p><a href="/logout">Logout</a></p>
-				<p><a th:href="@{/user/profile}">Profilo</a></p>
-			</div>
-	<div th:if="${giaEsiste}" th:text="${giaEsiste}"></div>
-	<div th:unless="${giaEsiste}">
-	 <h1>Aggiungi una recensione alla Pizzeria</h1>
-	 <form th:action="@{/user/pizzerie/{pId}/addReview(pId=${pizzeria.id})}" method="POST" th:object="${review}" >
-		<div>
-		 Titolo: <span><input type="text" th:field="*{titolo}" /></span>
-		 <span th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></span>
-		 </div>
-		 <div>
-		 Voto: <span><input type="number" min="1" max="5" step="1" th:field="*{voto}"/></span>
-		 <span th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}"></span>
-		 </div>
-		 <div>
-		 	Descrizione : <span><input type="text" th:field="*{testo}" /></span>
-	     	<span th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}"></span>
-		 </div>
-		 <div>
-		 <span><button type="submit">Aggiungi</button></span>
-		 </div>
-		 
-	 </form>
-	</div>
-	 <p><a href="/user/pizzerie">Torna alla lista di tutte le Pizzerie</a></p>
-	 <p><a href="/user">Torna alla home</a></p>
- </body>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>SliceVerse - Nuova Recensione</title>
+
+  <link rel="stylesheet" href="/css/user/stylesFormNewReview.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+
+<body>
+  <!-- Navbar coerente -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1 class="logo"><i class="bi bi-pizza btn-icon"></i> <strong>SliceVerse</strong></h1>
+      </div>
+
+      <div class="navbar-nav">
+        <div th:if="${user}" class="user-info">
+          <p class="user-name"><span th:text="${user.nome + ' ' + user.cognome}"></span></p>
+          <div class="user-actions">
+            <a th:href="@{/user/profile}" class="btn btn-profile">
+              <i class="bi bi-person-circle btn-icon"></i> Profilo
+            </a>
+            <a href="/logout" class="btn btn-logout">
+              <i class="bi bi-box-arrow-right btn-icon"></i> Logout
+            </a>
+          </div>
+        </div>
+
+        <div th:unless="${user}" class="auth-buttons">
+          <a href="/login" class="btn btn-login">
+            <i class="bi bi-box-arrow-in-right btn-icon"></i> Accedi
+          </a>
+          <a href="/register" class="btn btn-register">
+            <i class="bi bi-person-plus btn-icon"></i> Registrati
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Corpo principale -->
+  <main class="hero-section">
+    <div class="hero-content form-review">
+      <h1 class="hero-title">Nuova Recensione</h1>
+
+      <div th:if="${giaEsiste}" class="error-message">
+        <p th:text="${giaEsiste}"></p>
+      </div>
+
+      <div th:unless="${giaEsiste}" class="review-form-container">
+        <h2 class="hero-subtitle">Recensisci la Pizzeria</h2>
+
+        <form th:action="@{/user/pizzerie/{pId}/addReview(pId=${pizzeria.id})}" method="POST" th:object="${review}" class="review-form">
+          <div class="form-group">
+            <label for="titolo">Titolo:</label>
+            <input type="text" id="titolo" th:field="*{titolo}" />
+            <div th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}" class="error-field"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="voto">Voto:</label>
+            <input type="number" id="voto" min="1" max="5" step="1" th:field="*{voto}" />
+            <div th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}" class="error-field"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="testo">Descrizione:</label>
+            <input type="text" id="testo" th:field="*{testo}" />
+            <div th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}" class="error-field"></div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-pencil-square btn-icon"></i> Aggiungi
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="hero-buttons">
+        <a href="/user/pizzerie" class="btn btn-secondary">
+          <i class="bi bi-arrow-left btn-icon"></i> Torna alle Pizzerie
+        </a>
+        <a href="/user" class="btn btn-secondary">
+          <i class="bi bi-house btn-icon"></i> Torna alla Home
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer corretto -->
+  <footer class="footer">
+    <p>&copy; SliceVerse - Esplora, ordina, assapora</p>
+  </footer>
+</body>
 </html>

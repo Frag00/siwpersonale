@@ -1,33 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Lista Ordini</title>
+  <meta charset="UTF-8" />
+  <title>SliceVerse - Lista Ordini</title>
+
+  <link rel="stylesheet" href="/css/user/stylesListaOrdini.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 </head>
 <body>
-    <h1><strong>SliceVerse</strong></h1>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1 class="logo"><i class="bi bi-pizza btn-icon"></i> <strong>SliceVerse</strong></h1>
+      </div>
 
-    <div th:if="${user}">
-        <p th:text="${user.nome + ' ' + user.cognome}"></p>
-        <p><a href="/logout">Logout</a></p>
-        <p><a th:href="@{/user/profile}">Profilo</a></p>
-    </div>
-    <p th:unless="${user}">
-        <span><a href="/login">Accedi</a></span>
-        <span><a href="/register">Registrati</a></span>
-    </p>
-
-    <h2>I tuoi ordini</h2>
-
-    <div th:if="${ordini.isEmpty()}">Non hai effettuato ordini.</div>
-    <ul th:unless="${ordini.isEmpty()}">
-        <li th:each="o : ${ordini}">
-            <a th:href="@{'/user/ordini/' + ${o.id}}">
-                Ordine per <span th:href="@{'/user/pizzerie/' + ${o.pizzeria.id}}" th:text="${o.pizzeria.nome}">Pizzeria</span> alle 
-                <span th:text="${o.orarioConsegna}">Orario</span>
+      <div class="navbar-nav">
+        <div th:if="${user}" class="user-info">
+          <p class="user-name"><span th:text="${user.nome + ' ' + user.cognome}"></span></p>
+          <div class="user-actions">
+            <a th:href="@{/user/profile}" class="btn btn-profile">
+              <i class="bi bi-person-circle btn-icon"></i> Profilo
             </a>
-        </li>
-    </ul>
+            <a href="/logout" class="btn btn-logout">
+              <i class="bi bi-box-arrow-right btn-icon"></i> Logout
+            </a>
+          </div>
+        </div>
 
-    <p><a href="/user">Torna alla home</a></p>
+        <div th:unless="${user}" class="auth-buttons">
+          <a href="/login" class="btn btn-login">
+            <i class="bi bi-box-arrow-in-right btn-icon"></i> Accedi
+          </a>
+          <a href="/register" class="btn btn-register">
+            <i class="bi bi-person-plus btn-icon"></i> Registrati
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sezione ordini -->
+  <main class="hero-section">
+    <div class="hero-content ordini-wrapper">
+      <h1 class="hero-title">I tuoi ordini</h1>
+
+      <div th:if="${ordini.isEmpty()}" class="empty-message">
+        <p>Non hai effettuato ordini.</p>
+      </div>
+
+      <ul th:unless="${ordini.isEmpty()}" class="ordine-list">
+        <li th:each="o : ${ordini}" class="ordine-card">
+          <a th:href="@{'/user/ordini/' + ${o.id}}" class="ordine-link">
+            <i class="bi bi-receipt btn-icon"></i>
+            Ordine per <span th:text="${o.pizzeria.nome}">Pizzeria</span> alle
+            <span th:text="${o.orarioConsegna}">Orario</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="hero-buttons">
+        <a href="/user" class="btn btn-secondary">
+          <i class="bi bi-house btn-icon"></i> Torna alla Home
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; SliceVerse - Esplora, ordina, assapora</p>
+  </footer>
 </body>
 </html>
