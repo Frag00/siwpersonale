@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +22,14 @@ import it.uniroma3.siw.model.Picture;
 import it.uniroma3.siw.model.Pizzeria;
 import it.uniroma3.siw.model.Product;
 import it.uniroma3.siw.model.Review;
+import it.uniroma3.siw.model.RigaOrdine;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.service.OrdineService;
 import it.uniroma3.siw.service.PictureService;
 import it.uniroma3.siw.service.PizzeriaService;
 import it.uniroma3.siw.service.ProductService;
+import it.uniroma3.siw.service.ReviewService;
+import it.uniroma3.siw.service.RigaOrdineService;
 import it.uniroma3.siw.service.UserService;
 import jakarta.validation.Valid;
 
@@ -35,6 +40,10 @@ public class PizzeriaController {
 	@Autowired ProductService productService;
 	@Autowired PictureService pictureService;
 	@Autowired UserService userService;
+	@Autowired RigaOrdineService rigaOrdineService;
+	@Autowired ReviewService reviewService;
+	@Autowired OrdineService ordineService;
+	
 	
 	@GetMapping("/pizzerie")
 	public String showPizzerie(Model model) {
@@ -194,7 +203,7 @@ public class PizzeriaController {
 		}
 	}
 	
-	
+	/*
 	@GetMapping("/admin/pizzerie/{idP}/delete")
 	public String adminDeletesPizzeria(@PathVariable("idP") Long idP, Model model) {
 		
@@ -208,6 +217,10 @@ public class PizzeriaController {
 				u.getRecensioni().remove(r);
 				userService.saveUser(u);
 			}
+			r.setUtente(null); 
+			r.setPizzeria(null);
+			
+			reviewService.deleteReview(r);
 		}
 		
 		for(Ordine o : p.getOrdini()) {
@@ -216,6 +229,18 @@ public class PizzeriaController {
 				u.getOrdini().remove(o);
 				userService.saveUser(u);
 			}
+			// Elimina righe ordine associate
+		    for(RigaOrdine ro : o.getRigaOrdine()) {
+		        ro.setOrdine(null);
+		        ro.setProdotto(null);
+		        rigaOrdineService.save(ro);
+		        rigaOrdineService.delete(ro);  
+		    }
+
+		    o.setUtente(null);
+		    o.setPizzeria(null);
+		    ordineService.saveOrdine(o);
+		    ordineService.deleteOrdine(o);
 		}
 		
 		//rimuovo le immagini dal progetto
@@ -224,17 +249,99 @@ public class PizzeriaController {
 				pictureService.deletePhysicalImage(pic);
 		}
 		
+		for (Product prod : p.getMenu()) {
+		    List<RigaOrdine> righe = rigaOrdineService.findByProdotto(prod);
+		    for (RigaOrdine ro : righe) {
+		        ro.setProdotto(null);
+		        ro.setOrdine(null);
+		        rigaOrdineService.save(ro);
+		        rigaOrdineService.delete(ro);
+		    }
+		}
+		
 		for(Product prod : p.getMenu()) {
 			if(prod!=null)
-				if(prod.getImmagine()!=null)
-					pictureService.deletePhysicalImage(prod.getImmagine());
+				if(prod.getImmagine() != null)
+			        pictureService.deletePhysicalImage(prod.getImmagine());
+			    
+			    prod.setPizzeria(null); 
+			    productService.saveProduct(prod);
+			    productService.deleteProduct(prod); 
 		}
+		
+	
 	
 		pizzeriaService.deletePizzeria(p);
 		
 		model.addAttribute("pizzerie", pizzeriaService.getAllPizzerie());
 		return "redirect:/admin/pizzerie";
+	}*/
+	
+	@Transactional
+	@GetMapping("/admin/pizzerie/{idP}/delete")
+	public String adminDeletesPizzeria(@PathVariable("idP") Long idP, Model model) {
+	    Pizzeria p = pizzeriaService.getPizzeriaById(idP).get();
+
+	    // 1. Rimuovo righe ordine da ogni prodotto del menu
+	    for (Product prod : p.getMenu()) {
+	        List<RigaOrdine> righe = rigaOrdineService.findByProdotto(prod);
+	        for (RigaOrdine ro : righe) {
+	            ro.setProdotto(null);
+	            ro.setOrdine(null);
+	            rigaOrdineService.delete(ro);
+	        }
+	    }
+
+	    // 2. Rimuovo prodotti e le immagini associate
+	    for (Product prod : p.getMenu()) {
+	        if (prod.getImmagine() != null)
+	            pictureService.deletePhysicalImage(prod.getImmagine());
+	        prod.setPizzeria(null);
+	        productService.deleteProduct(prod);
+	    }
+
+	    // 3. Rimuovo gli ordini e le loro righe
+	    for (Ordine o : p.getOrdini()) {
+	        User u = o.getUtente();
+	        if (u != null) {
+	            u.getOrdini().remove(o);
+	            userService.saveUser(u);
+	        }
+	        for (RigaOrdine ro : o.getRigaOrdine()) {
+	            ro.setOrdine(null);
+	            ro.setProdotto(null);
+	            rigaOrdineService.delete(ro);
+	        }
+	        o.setUtente(null);
+	        o.setPizzeria(null);
+	        ordineService.deleteOrdine(o);
+	    }
+
+	    // 4. Rimuovo le recensioni
+	    for (Review r : p.getRecensioni()) {
+	        User u = r.getUtente();
+	        if (u != null) {
+	            u.getRecensioni().remove(r);
+	            userService.saveUser(u);
+	        }
+	        r.setUtente(null);
+	        r.setPizzeria(null);
+	        reviewService.deleteReview(r);
+	    }
+
+	    // 5. Rimuovo immagini della pizzeria
+	    for (Picture pic : p.getImmagini()) {
+	        if (pic != null)
+	            pictureService.deletePhysicalImage(pic);
+	    }
+
+	    // 6. Elimina la pizzeria
+	    pizzeriaService.deletePizzeria(p);
+
+	    model.addAttribute("pizzerie", pizzeriaService.getAllPizzerie());
+	    return "redirect:/admin/pizzerie";
 	}
+	
 	
 	@GetMapping("/admin/pizzerie/{idP}/menu/{idProd}/remove")
 	public String adminRemovesProductFromPizzeria(@PathVariable("idP") Long idPizzeria, @PathVariable("idProd") Long idProd, Model model) {
@@ -245,6 +352,13 @@ public class PizzeriaController {
 		
 		
 		pizzeria.getMenu().remove(p);
+		
+		//Rimuovo il prodotto da tutte le righe ordine che lo usano
+	    List<RigaOrdine> righe = rigaOrdineService.findByProdotto(p);
+	    for (RigaOrdine riga : righe) {
+	        riga.setProdotto(null); // disaccoppia
+	        rigaOrdineService.delete(riga); 
+	    }
 		
 		//elimino il file dal progetto
 		if(p.getImmagine()!=null)
